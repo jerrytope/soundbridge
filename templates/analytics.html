@@ -1,0 +1,9 @@
+{% extends "shell.html" %}{% load ui %}
+{# Port of the Analytics component in src/main.jsx. #}
+{% block content %}
+{% include "partials/heading.html" with title="Your progress, in perspective." description="Activity from your local workspace. Streaming analytics require a connected data source." %}
+<div class="stats">{% for value, label in stats %}<article class="panel"><strong>{{ value }}</strong><p>{{ label }}</p></article>{% endfor %}</div>
+<section class="panel"><h2>Release readiness</h2>{% if releases %}{% for release in releases %}<div class="chart-row"><span>{{ release.title }}</span><progress aria-label="{{ release.title }}" max="{{ release.total }}" value="{{ release.done }}"></progress><span>{{ release.percent }}%</span></div>{% endfor %}{% else %}{% include "partials/empty.html" with title="Create a release to track progress" %}{% endif %}</section>
+<h2>Recorded royalty income</h2>
+{% include "partials/earnings.html" %}
+{% endblock %}

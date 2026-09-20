@@ -1,0 +1,17 @@
+{% extends "shell.html" %}{% load ui static %}
+{# Port of the Upload component in src/main.jsx. The CSV is parsed on the
+   server instead of in the browser; the markup and copy are unchanged, apart
+   from the note about where parsing happens. #}
+{% block content %}
+{% include "partials/heading.html" with title="Every stream has a story." description="Import CSV statements with track, platform, amount and currency columns. Amounts remain in their original currency." %}
+<form class="panel upload" method="post" action="/royalty-upload" enctype="multipart/form-data" data-upload-form>{% csrf_token %}
+  <span>&#8593;</span><h2>Drop your CSV statement here</h2>
+  <label class="field"><span>Choose a statement</span><input type="file" name="statement" accept=".csv,text/csv" data-upload-input/></label>
+  <p>Maximum 5 MB. Files are parsed on the SoundBridge server and stored with your account.</p>
+  <a href="/royalty-upload/sample">Download sample CSV</a>
+  {% if error %}<p role="alert" class="error">{{ error }}</p>{% endif %}
+</form>
+{% include "partials/earnings.html" %}
+{% for statement in statements %}<section class="panel"><div class="list-row"><h2>{{ statement.name }}</h2><form method="post" action="/royalty-upload">{% csrf_token %}<input type="hidden" name="action" value="remove"/><input type="hidden" name="id" value="{{ statement.id }}"/><button>Remove statement</button></form></div><div class="table-scroll"><table><thead><tr><th>Track</th><th>Platform</th><th>Amount</th></tr></thead><tbody>{% for row in statement.rows %}<tr><td>{{ row.track }}</td><td>{{ row.platform }}</td><td>{{ row.amount|money:row.currency }}</td></tr>{% endfor %}</tbody></table></div>{% if statement.total > 100 %}<p>Showing the first 100 of {{ statement.total }} rows. Totals include every row.</p>{% endif %}</section>{% endfor %}
+{% endblock %}
+{% block page_scripts %}<script src="{% static 'js/upload.js' %}" defer></script>{% endblock %}

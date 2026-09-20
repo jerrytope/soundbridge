@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Create Account — SoundBridge</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="signup.css">
+</head>
+
+<body>
+  <main class="signup-page">
+    <!-- Left panel -->
+    <section class="brand-panel">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">S</span>
+        <span>SoundBridge</span>
+      </a>
+
+      <div class="brand-message">
+        <p class="eyebrow">Your career starts here</p>
+
+        <h1>
+          Join the people
+          <span>behind the music.</span>
+        </h1>
+
+        <p>
+          Build your professional identity, discover opportunities,
+          work with AI assistants and understand your music income.
+        </p>
+      </div>
+
+      <div class="music-visual">
+        <div class="outer-circle"></div>
+        <div class="inner-circle"></div>
+        <div class="record">
+          <span>SB</span>
+        </div>
+      </div>
+
+      <p class="copyright">
+        © <span id="currentYear"></span> SoundBridge
+      </p>
+    </section>
+
+    <!-- Form panel -->
+    <section class="form-panel">
+      <div class="form-container">
+        <div class="form-heading">
+          <p class="step-label">Create your account</p>
+          <h2>Welcome to SoundBridge</h2>
+
+          <p>
+            Already have an account?
+            <button class="switch-link" id="showSignIn">
+              Sign in
+            </button>
+          </p>
+        </div>
+
+        <!-- Sign-up form -->
+        <form id="signupForm">
+          <div class="name-row">
+            <div class="form-group">
+              <label for="firstName">First name</label>
+
+              <input
+                type="text"
+                id="firstName"
+                placeholder="Your first name"
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="lastName">Last name</label>
+
+              <input
+                type="text"
+                id="lastName"
+                placeholder="Your last name"
+                required
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email address</label>
+
+            <input
+              type="email"
+              id="email"
+              placeholder="artist@example.com"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+
+            <div class="password-field">
+              <input
+                type="password"
+                id="password"
+                placeholder="Create a secure password"
+                minlength="8"
+                required
+              >
+
+              <button
+                type="button"
+                class="password-button"
+                id="passwordButton"
+              >
+                Show
+              </button>
+            </div>
+
+            <small>
+              Use at least eight characters.
+            </small>
+          </div>
+
+          <label class="agreement">
+            <input type="checkbox" id="agreement" required>
+
+            <span>
+              I agree to the Terms of Service and Privacy Policy.
+            </span>
+          </label>
+
+          <p class="form-error" id="formError"></p>
+
+          <button type="submit" class="submit-button">
+            Create my account
+            <span>→</span>
+          </button>
+        </form>
+
+        <!-- Sign-in form -->
+        <form id="signinForm" class="hidden">
+          <div class="form-group">
+            <label for="signinEmail">Email address</label>
+
+            <input
+              type="email"
+              id="signinEmail"
+              placeholder="artist@example.com"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="signinPassword">Password</label>
+
+            <input
+              type="password"
+              id="signinPassword"
+              placeholder="Enter your password"
+              required
+            >
+          </div>
+
+          <a href="#" class="forgot-password">
+            Forgot your password?
+          </a>
+
+          <p class="form-error" id="signinError"></p>
+
+          <button type="submit" class="submit-button">
+            Sign in
+            <span>→</span>
+          </button>
+
+          <button
+            type="button"
+            class="switch-to-signup"
+            id="showSignUp"
+          >
+            Create a new account
+          </button>
+        </form>
+
+        <div class="separator">
+          <span></span>
+          <p>or continue with</p>
+          <span></span>
+        </div>
+
+        <div class="social-buttons">
+          <button type="button">Google</button>
+          <button type="button">Apple</button>
+        </div>
+
+        <p class="frontend-notice">
+          Frontend demonstration — no account data is sent to a server.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="signup.js"></script>
+</body>
+</html>

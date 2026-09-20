@@ -1,0 +1,37 @@
+{% extends "shell.html" %}{% load ui static %}
+{# Port of the Profile component in src/main.jsx, including the ImageUpload
+   control from src/components/ImageUpload.jsx. Resizing now happens on the
+   server with Pillow, so the control posts the chosen file instead of a
+   canvas data URL; the markup and copy are unchanged. #}
+{% block content %}
+{% include "partials/heading.html" with title="Your professional profile" description="Give your next collaborator a reason to connect." %}
+<p><a class="button" href="/settings/professional">Professional details, credits and visibility</a></p><section class="panel">
+  <form class="image-upload" method="post" action="{{ request.path }}" enctype="multipart/form-data" data-image-upload>{% csrf_token %}
+    <input type="hidden" name="action" value="photo"/>
+    <div class="image-preview round">{% if profile.photo %}<img src="{{ profile.photo }}" alt="Profile photo preview"/>{% else %}<span aria-hidden="true">&#65291;</span>{% endif %}</div>
+    <div class="image-upload-controls"><strong id="photo-label">Profile photo</strong><p id="photo-help">JPG, PNG or WebP &middot; up to 5 MB. Saved to your account.</p>
+      <input id="photo-input" class="sr-only" type="file" name="image" accept="image/jpeg,image/png,image/webp" aria-labelledby="photo-label" aria-describedby="photo-help" tabindex="-1" data-image-input/>
+      <div class="image-upload-actions"><button type="button" data-image-choose>{% if profile.photo %}Replace profile photo{% else %}Upload profile photo{% endif %}</button>{% if profile.photo %}<button type="submit" name="action" value="remove-photo">Remove profile photo</button>{% endif %}</div>
+    </div>
+  </form>
+</section>
+<form class="panel form-grid" method="post" action="{{ request.path }}">{% csrf_token %}
+  <label class="field"><span>Artist or professional name</span><input name="name" required pattern=".*\S.*" value="{{ profile.name }}"/></label>
+  <label class="field"><span>Email</span><input type="email" name="email" required readonly value="{{ request.user.email }}"/></label>
+  <label class="field"><span>Role</span><select name="role">{% for role in roles %}<option{% if role == profile.role %} selected{% endif %}>{{ role }}</option>{% endfor %}</select></label>
+  <label class="field"><span>City</span><input name="city" value="{{ profile.city }}"/></label>
+  <label class="field"><span>Bio</span><textarea name="bio" maxlength="1000" rows="5">{{ profile.bio }}</textarea></label>
+  <label class="field"><span>Portfolio URL</span><input type="url" name="portfolio" placeholder="https://" value="{{ profile.portfolio }}"/></label>
+  <div class="actions"><button class="button">{% if onboarding %}Save &amp; continue &rarr;{% else %}Save profile{% endif %}</button></div>
+</form>
+{% if not onboarding %}
+<section class="panel"><h2>Your account</h2><p><a href="/music-search">API connections &amp; Spotify search &rarr;</a></p>
+  <p>Signed in as {{ request.user.email }}. Your login email cannot be changed here.</p>
+  <form method="post" action="/sign-out">{% csrf_token %}<button>Sign out</button></form>
+  <h2>Your workspace data</h2><p>Export a backup of your profile, plans and imported statements.</p>
+  <a href="/settings/privacy">Privacy, export and deletion</a>
+  <a class="button secondary" href="/goals">Edit goals</a><a class="button secondary" href="/genres">Edit genres</a>
+</section>
+{% endif %}
+{% endblock %}
+{% block page_scripts %}<script src="{% static 'js/image_upload.js' %}" defer></script>{% endblock %}

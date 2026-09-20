@@ -1,0 +1,14 @@
+{% extends "shell.html" %}
+{# Port of the Setup component in src/main.jsx: the role, goals and genres
+   choice grids. One form wraps the grid so `.choice-grid` still contains the
+   buttons directly and the layout is unchanged; each choice submits on click,
+   as the React version saved on click. #}
+{% block content %}
+{% include "partials/heading.html" with eyebrow=config.eyebrow title=config.title description=config.description %}
+<form method="post" action="{{ request.path }}">{% csrf_token %}
+<div class="choice-grid">
+  {% for option in config.options %}<button class="choice" name="option" value="{{ option }}" aria-pressed="{% if option in selected %}true{% else %}false{% endif %}"{% if at_limit and option not in selected %} disabled{% endif %}>{{ option }}<span aria-hidden="true">&#8599;</span></button>{% endfor %}
+</div>
+</form>
+<div class="actions"><form method="post" action="/setup/continue/{% if step == 'onboarding' %}role{% else %}{{ step }}{% endif %}">{% csrf_token %}<button class="button">Save and continue</button></form></div>
+{% endblock %}

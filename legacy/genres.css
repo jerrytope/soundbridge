@@ -1,0 +1,431 @@
+:root {
+  --black: #07070a;
+  --card: #15151b;
+  --white: #f7f7f4;
+  --grey: #9999a3;
+  --line: #303037;
+
+  --lime: #d8ff00;
+  --cyan: #42c7ce;
+  --pink: #ff477b;
+  --purple: #9367ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+
+  background:
+    radial-gradient(
+      circle at 80% 35%,
+      rgba(255, 71, 123, 0.1),
+      transparent 30%
+    ),
+    var(--black);
+
+  color: var(--white);
+
+  font-family: "DM Sans", sans-serif;
+}
+
+button,
+input,
+a {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* HEADER */
+
+.onboarding-header {
+  width: min(1300px, calc(100% - 48px));
+  height: 85px;
+  margin: auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.logo-icon {
+  width: 31px;
+  height: 31px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50% 50% 50% 12%;
+
+  background: var(--lime);
+  color: var(--black);
+}
+
+.exit-button {
+  padding: 11px 17px;
+
+  border: 1px solid var(--line);
+  border-radius: 100px;
+
+  background: transparent;
+  color: var(--grey);
+}
+
+.exit-button:hover {
+  border-color: var(--white);
+  color: var(--white);
+}
+
+/* PROGRESS */
+
+.progress-section {
+  width: min(1300px, calc(100% - 48px));
+  margin: auto;
+}
+
+.progress-information {
+  margin-bottom: 9px;
+
+  display: flex;
+  justify-content: space-between;
+
+  color: var(--grey);
+  font-size: 12px;
+}
+
+.progress-track {
+  height: 4px;
+
+  overflow: hidden;
+
+  border-radius: 100px;
+  background: #202027;
+}
+
+.progress-value {
+  width: 60%;
+  height: 100%;
+
+  background: var(--lime);
+  box-shadow: 0 0 15px rgba(216, 255, 0, 0.45);
+}
+
+/* MAIN CONTENT */
+
+.genres-container {
+  width: min(1050px, calc(100% - 48px));
+  margin: auto;
+  padding: 80px 0 130px;
+}
+
+.eyebrow {
+  margin: 0;
+
+  color: var(--lime);
+
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.introduction h1 {
+  margin: 18px 0;
+
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(55px, 7vw, 90px);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+}
+
+.introduction h1 span {
+  display: block;
+
+  color: transparent;
+  -webkit-text-stroke: 1.5px #72727c;
+}
+
+.introduction > p:last-child {
+  max-width: 680px;
+
+  color: var(--grey);
+
+  font-size: 18px;
+  line-height: 1.55;
+}
+
+/* SELECTION INFORMATION */
+
+.selection-information {
+  margin: 45px 0 25px;
+
+  display: flex;
+  justify-content: space-between;
+
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 20px;
+}
+
+.selection-information div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.selection-information div:last-child {
+  align-items: flex-end;
+}
+
+.selection-information span {
+  color: var(--grey);
+
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.selection-information strong {
+  font-size: 15px;
+}
+
+.selection-information div:last-child strong {
+  color: var(--lime);
+}
+
+/* GENRE BUTTONS */
+
+.genre-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 13px;
+}
+
+.genre-button {
+  padding: 16px 23px;
+
+  border: 1px solid var(--line);
+  border-radius: 100px;
+
+  background: var(--card);
+  color: var(--white);
+
+  font-weight: 600;
+
+  transition:
+    transform 200ms ease,
+    border-color 200ms ease,
+    background-color 200ms ease;
+}
+
+.genre-button:hover {
+  transform: translateY(-2px);
+  border-color: #777781;
+}
+
+.genre-button.selected {
+  border-color: var(--lime);
+
+  background: var(--lime);
+  color: var(--black);
+}
+
+.genre-button.limit-reached:not(.selected) {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* CUSTOM GENRE */
+
+.custom-genre-section {
+  margin-top: 55px;
+  padding-top: 30px;
+
+  border-top: 1px solid var(--line);
+}
+
+.custom-genre-section label {
+  display: block;
+  margin-bottom: 12px;
+
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 600;
+}
+
+.custom-genre-row {
+  display: flex;
+  gap: 12px;
+}
+
+.custom-genre-row input {
+  flex: 1;
+  height: 53px;
+  padding: 0 16px;
+
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  outline: none;
+
+  background: var(--card);
+  color: var(--white);
+}
+
+.custom-genre-row input:focus {
+  border-color: var(--lime);
+
+  box-shadow: 0 0 0 3px rgba(216, 255, 0, 0.1);
+}
+
+.custom-genre-row button {
+  padding: 0 22px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: var(--cyan);
+  color: var(--black);
+
+  font-weight: 700;
+}
+
+.genre-error {
+  min-height: 20px;
+  margin: 18px 0 0;
+
+  color: var(--pink);
+  font-size: 13px;
+}
+
+/* BOTTOM NAVIGATION */
+
+.bottom-navigation {
+  margin-top: 45px;
+  padding-top: 25px;
+
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+  gap: 20px;
+
+  border-top: 1px solid var(--line);
+}
+
+.back-button {
+  color: var(--grey);
+}
+
+.back-button:hover {
+  color: var(--white);
+}
+
+.selected-preview {
+  margin: 0;
+
+  overflow: hidden;
+
+  color: var(--grey);
+
+  font-size: 12px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.continue-button {
+  justify-self: end;
+
+  padding: 16px 25px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  border: none;
+  border-radius: 100px;
+
+  background: var(--lime);
+  color: var(--black);
+
+  font-weight: 700;
+}
+
+.continue-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+.continue-button:not(:disabled):hover {
+  box-shadow: 0 0 35px rgba(216, 255, 0, 0.22);
+  transform: translateY(-2px);
+}
+
+/* MOBILE */
+
+@media (max-width: 550px) {
+  .onboarding-header,
+  .progress-section,
+  .genres-container {
+    width: calc(100% - 30px);
+  }
+
+  .exit-button {
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+
+  .genres-container {
+    padding: 50px 0 100px;
+  }
+
+  .introduction h1 {
+    font-size: 49px;
+  }
+
+  .introduction > p:last-child {
+    font-size: 16px;
+  }
+
+  .genre-button {
+    padding: 13px 17px;
+    font-size: 14px;
+  }
+
+  .custom-genre-row {
+    flex-direction: column;
+  }
+
+  .custom-genre-row button {
+    height: 50px;
+  }
+
+  .bottom-navigation {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .selected-preview {
+    display: none;
+  }
+}

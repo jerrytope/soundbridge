@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Choose Your Genres — SoundBridge</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="genres.css">
+</head>
+
+<body>
+  <header class="onboarding-header">
+    <a href="index.html" class="logo">
+      <span class="logo-icon">S</span>
+      <span>SoundBridge</span>
+    </a>
+
+    <button class="exit-button" id="exitButton">
+      Save and exit
+    </button>
+  </header>
+
+  <section class="progress-section">
+    <div class="progress-information">
+      <span>Step 3 of 5</span>
+      <span>60% complete</span>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-value"></div>
+    </div>
+  </section>
+
+  <main class="genres-container">
+    <section class="introduction">
+      <p class="eyebrow">Shape your recommendations</p>
+
+      <h1>
+        What sounds define
+        <span>your world?</span>
+      </h1>
+
+      <p>
+        Select up to five genres. We will use them to recommend
+        collaborators, opportunities, music and professional services.
+      </p>
+    </section>
+
+    <section class="selection-information">
+      <div>
+        <span>Your role</span>
+        <strong id="roleName">Music professional</strong>
+      </div>
+
+      <div>
+        <span>Genres selected</span>
+
+        <strong>
+          <span id="selectedCount">0</span>/5
+        </strong>
+      </div>
+    </section>
+
+    <section class="genre-list" id="genreList">
+      <button class="genre-button" data-genre="Afrobeats">
+        Afrobeats
+      </button>
+
+      <button class="genre-button" data-genre="Afropop">
+        Afropop
+      </button>
+
+      <button class="genre-button" data-genre="Amapiano">
+        Amapiano
+      </button>
+
+      <button class="genre-button" data-genre="R&B">
+        R&amp;B
+      </button>
+
+      <button class="genre-button" data-genre="Hip-Hop">
+        Hip-Hop
+      </button>
+
+      <button class="genre-button" data-genre="Alternative">
+        Alternative
+      </button>
+
+      <button class="genre-button" data-genre="Gospel">
+        Gospel
+      </button>
+
+      <button class="genre-button" data-genre="Highlife">
+        Highlife
+      </button>
+
+      <button class="genre-button" data-genre="Dancehall">
+        Dancehall
+      </button>
+
+      <button class="genre-button" data-genre="Reggae">
+        Reggae
+      </button>
+
+      <button class="genre-button" data-genre="Pop">
+        Pop
+      </button>
+
+      <button class="genre-button" data-genre="Soul">
+        Soul
+      </button>
+
+      <button class="genre-button" data-genre="Jazz">
+        Jazz
+      </button>
+
+      <button class="genre-button" data-genre="Electronic">
+        Electronic
+      </button>
+
+      <button class="genre-button" data-genre="House">
+        House
+      </button>
+
+      <button class="genre-button" data-genre="Rock">
+        Rock
+      </button>
+
+      <button class="genre-button" data-genre="Folk">
+        Folk
+      </button>
+
+      <button class="genre-button" data-genre="Classical">
+        Classical
+      </button>
+
+      <button class="genre-button" data-genre="Film Music">
+        Film Music
+      </button>
+
+      <button class="genre-button" data-genre="Other">
+        Other
+      </button>
+    </section>
+
+    <section class="custom-genre-section">
+      <label for="customGenre">
+        Cannot find your genre?
+      </label>
+
+      <div class="custom-genre-row">
+        <input
+          type="text"
+          id="customGenre"
+          placeholder="Enter another genre"
+          maxlength="30"
+        >
+
+        <button id="addGenreButton">
+          Add genre
+        </button>
+      </div>
+    </section>
+
+    <p class="genre-error" id="genreError"></p>
+
+    <section class="bottom-navigation">
+      <a href="goals.html" class="back-button">
+        ← Back
+      </a>
+
+      <p class="selected-preview" id="selectedPreview">
+        No genres selected
+      </p>
+
+      <button
+        class="continue-button"
+        id="continueButton"
+        disabled
+      >
+        Continue
+        <span>→</span>
+      </button>
+    </section>
+  </main>
+
+  <script src="genres.js"></script>
+</body>
+</html>

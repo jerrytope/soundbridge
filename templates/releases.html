@@ -1,0 +1,34 @@
+{% extends "shell.html" %}{% load ui static %}
+{# Port of the Releases component in src/main.jsx. Checkbox and task forms post
+   to the server; the markup, classes and copy are unchanged. #}
+{% block content %}{% if not request.user.onboarding_completed_at %}<form method="post" action="/setup/continue/release">{% csrf_token %}<button class="button">Save setup and continue</button></form>{% endif %}
+{% include "partials/heading.html" with eyebrow="YOUR NEXT CHAPTER" title="Great releases start with a plan." description="Give your next single, EP or album a direction. We’ll help you keep the moving parts together." %}
+<form class="panel form-grid release-builder" method="post" action="{{ request.path }}">{% csrf_token %}
+  <input type="hidden" name="action" value="create"/>
+  <div class="release-form-intro"><span class="move-icon">{% icon "music" %}</span><div><h2>What are you working on?</h2><p>Start with the essentials. Your checklist comes next.</p></div><span class="small-label">NEW RELEASE</span></div>
+  <label class="field"><span>Release title</span><input placeholder="Give your project a name" name="title" required pattern=".*\S.*"/></label>
+  <label class="field"><span>Release date</span><input name="date" type="date" required/></label>
+  <label class="field"><span>Release type</span><select name="type">{% for option in types %}<option>{{ option }}</option>{% endfor %}</select></label>
+  <button class="button">{% icon "plus" 17 %} Create release plan</button>
+</form>
+<a href="/assistants?agent=manager" class="release-coach"><span class="move-icon">{% icon "spark" %}</span><div><strong>A second opinion for your next big move.</strong><p>Your Artist Manager can help shape the timeline, budget and priorities.</p></div><span>Talk to your manager {% icon "arrow" 16 %}</span></a>
+{% if not releases %}{% include "partials/empty.html" with title="Your next release starts here" body="Add a release to create your checklist." %}{% endif %}
+{% for release in releases %}
+<section class="panel release-plan-card">
+  <div class="release-card-title"><div class="mini-cover">{% if release.artwork %}<img src="{{ release.artwork }}" alt=""/>{% else %}{% icon "music" 28 %}{% endif %}</div><div><span class="pill">{{ release.type }} &middot; {{ release.date|date:"Y-m-d" }}</span><h2><a href="/releases/{{ release.id }}">{{ release.title }}</a></h2></div><span class="release-count">{{ release.percent }}<small>%</small></span></div>
+  <form class="image-upload" method="post" action="{{ request.path }}" enctype="multipart/form-data" data-image-upload>{% csrf_token %}
+    <input type="hidden" name="action" value="artwork"/><input type="hidden" name="release" value="{{ release.id }}"/>
+    <div class="image-preview">{% if release.artwork %}<img src="{{ release.artwork }}" alt="Release artwork preview"/>{% else %}<span aria-hidden="true">&#65291;</span>{% endif %}</div>
+    <div class="image-upload-controls"><strong id="art-{{ release.id }}-label">Release artwork</strong><p id="art-{{ release.id }}-help">JPG, PNG or WebP &middot; up to 5 MB. Saved to your account.</p>
+      <input id="art-{{ release.id }}" class="sr-only" type="file" name="image" accept="image/jpeg,image/png,image/webp" aria-labelledby="art-{{ release.id }}-label" aria-describedby="art-{{ release.id }}-help" tabindex="-1" data-image-input/>
+      <div class="image-upload-actions"><button type="button" data-image-choose>{% if release.artwork %}Replace release artwork{% else %}Upload release artwork{% endif %}</button>{% if release.artwork %}<button type="submit" name="action" value="remove-artwork">Remove release artwork</button>{% endif %}</div>
+    </div>
+  </form>
+  <p>{{ release.done }} of {{ release.total }} tasks complete</p>
+  <progress aria-label="{{ release.title }} completion" value="{{ release.done }}" max="{{ release.total }}"></progress>
+  {% for task in release.task_list %}<form method="post" action="{{ request.path }}" data-task-form>{% csrf_token %}<input type="hidden" name="action" value="toggle-task"/><input type="hidden" name="task" value="{{ task.id }}"/><label class="task"><input type="checkbox"{% if task.done %} checked{% endif %} data-task-toggle/><span>{{ task.title }}</span></label></form>{% endfor %}
+  <form class="inline-form" method="post" action="{{ request.path }}">{% csrf_token %}<input type="hidden" name="action" value="add-task"/><input type="hidden" name="release" value="{{ release.id }}"/><input aria-label="New release task" name="task" required placeholder="Add your own task"/><button>Add task</button></form>
+</section>
+{% endfor %}
+{% endblock %}
+{% block page_scripts %}<script src="{% static 'js/image_upload.js' %}" defer></script><script src="{% static 'js/tasks.js' %}" defer></script>{% endblock %}

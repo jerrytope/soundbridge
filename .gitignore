@@ -1,0 +1,82 @@
+# ---------------------------------------------------------------------------
+# SoundBridge — the shipped product is the Django application in this repo.
+# Everything ignored below is either generated, secret, or belongs to the
+# retired Node/React/Vercel stack that Django replaced.
+# ---------------------------------------------------------------------------
+
+# Secrets and local configuration. .env.example is the documented template.
+.env*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+
+# Runtime state: SQLite databases, private artifacts, collected static files.
+# Never commit these; back them up out of band.
+.data/
+*.sqlite
+*.sqlite3
+*.sqlite-shm
+*.sqlite-wal
+staticfiles/
+media/
+
+# Test and tooling output
+playwright-report/
+test-results/
+htmlcov/
+.coverage
+.ai-test-*/
+.image-test-*/
+.backend-test-*/
+
+# Editor / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Supplied source archive (large; the source is extracted in place)
+SOUNDBRIDGE WEBAPP.zip
+*.zip
+
+# ---------------------------------------------------------------------------
+# Retired Node/React/Vercel stack. Django serves the UI from templates/ and
+# static/; nothing below is imported, built or deployed by the product. The
+# Python modules reference these paths only in comments that record what each
+# module was ported from.
+# ---------------------------------------------------------------------------
+node_modules/
+dist/
+package.json
+package-lock.json
+vite.config.js
+vercel.json
+.vercelignore
+.vercel/
+src/
+server/
+api/
+
+# Vite single-page-app entry shells at the repository root. The Django routes
+# serve /<page>.html from legacy/, which stays tracked.
+/index.html
+/signup.html
+/portal.html
+/discover.html
+/onboarding.html
+/goals.html
+/genres.html
+/profile-setup.html
+/release-setup.html
+/royalty-setup.html
+/royalty-calculator.html
+/royalty-upload.html

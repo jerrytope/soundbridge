@@ -1,0 +1,9 @@
+{% extends "shell.html" %}
+{# Port of the RoyaltySetup component in src/main.jsx. #}
+{% block content %}{% if not request.user.onboarding_completed_at %}<form method="post" action="/setup/continue/royalties">{% csrf_token %}<button class="button">Save setup and continue</button></form>{% endif %}
+{% include "partials/heading.html" with title="Organise your royalty sources" description="Select the platforms you use. This does not connect an external account." %}
+<form method="post" action="/royalty-setup">{% csrf_token %}
+<div class="choice-grid">{% for source in sources %}<button class="choice" name="source" value="{{ source }}" aria-pressed="{% if source in selected %}true{% else %}false{% endif %}">{{ source }}</button>{% endfor %}</div>
+</form>
+<div class="actions"><a class="button" href="/portal">Finish setup &rarr;</a><a href="/release-planner">Plan your first release</a></div>
+{% endblock %}

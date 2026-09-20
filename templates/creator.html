@@ -1,0 +1,12 @@
+{% extends "shell.html" %}
+{# Port of the Creator component in src/main.jsx. #}
+{% block content %}
+<a href="/discover">&larr; Back to discovery</a>
+{% if creator %}
+{% include "partials/heading.html" with title=creator.name description="Sample creator profile" %}
+{% include "partials/creator_card.html" %}
+<a class="button" href="/collaborations">Plan a collaboration &rarr;</a>
+{% else %}
+{% include "partials/empty.html" with title="Creator not found" %}
+{% endif %}
+{% endblock %}

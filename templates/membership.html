@@ -1,0 +1,6 @@
+{% extends "shell.html" %}
+{# Port of the Membership component in src/main.jsx. #}
+{% block content %}
+{% include "partials/heading.html" with title="Build your presence. Grow your career." description="The local workspace is free. Paid memberships are not available in this preview." %}
+<div class="two-col"><section class="panel"><span class="pill">AVAILABLE NOW</span><h2>Free workspace</h2><ul><li>Creator profile and discovery</li><li>Collaboration and application drafts</li><li>Release plans and progress tracking</li><li>CSV statements and royalty scenarios</li><li>Specialist AI workspace &amp; saved briefs</li></ul><a class="button" href="/portal">Open your workspace &rarr;</a></section><section class="panel accent-panel"><span class="pill">PLANNED</span><h2>SoundBridge Pro</h2><ul><li>Connected AI assistants</li><li>Live creator messaging</li><li>Platform data integrations</li><li>Advanced royalty reporting</li></ul><p>Pricing and checkout will be available when these services launch.</p></section></div>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends "shell.html" %}{% load ui static %}
+{# Port of src/ai/AiStudio.jsx: the directory, the saved-work library and the
+   conversation workspace, with the same classes and copy studio.css expects. #}
+{% block stylesheets %}<link rel="stylesheet" href="{% static 'css/studio.css' %}"/>{% endblock %}
+{% block content %}<p><a href="/assistants/context">Choose which account data AI may use</a> · AI can be wrong. Review suggestions before acting.</p>
+<div class="ai-studio">
+  <header class="studio-heading"><div><p class="eyebrow">THE TEAM BEHIND YOUR NEXT CHAPTER</p><h1>Your music. Your AI team.</h1><p>Specialists who understand the creative work&mdash;and the career around it.</p></div><span class="studio-status {{ status }}"><i></i>{% if status == 'ready' %}AI connection configured{% else %}AI connection needed{% endif %}</span></header>
+  <div class="studio-nav"><a href="/assistants" class="{% if not agent and view != 'library' %}selected{% endif %}">Meet your team</a><a href="/assistants?view=library" class="{% if view == 'library' %}selected{% endif %}">Saved work <span>{{ deliverables|length }}</span></a><a href="?{% if agent %}agent={{ agent.id }}&amp;session={{ current.id }}&amp;{% endif %}brief=open" aria-expanded="{% if brief_open %}true{% else %}false{% endif %}">&#9678; Artist &amp; project brief</a></div>
+
+  {% if brief_open %}
+  <section class="panel brief-editor"><div><p class="eyebrow">ONE BRIEF. A CONNECTED TEAM.</p><h2>Give your specialists the bigger picture.</h2><p>Your profile, release summaries and royalty totals are included. New sessions use this brief; existing sessions keep their original context until you refresh it.</p><a href="/settings">Edit artist profile &rarr;</a></div>
+    <form method="post" action="/assistants/brief">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}"/>
+      <label class="field"><span>Project name</span><input name="project" maxlength="300" value="{{ brief.project }}"/></label>
+      <label class="field"><span>What do you want to achieve?</span><input name="objective" maxlength="2000" value="{{ brief.objective }}"/></label>
+      <label class="field"><span>Who is this for?</span><input name="audience" maxlength="300" value="{{ brief.audience }}"/></label>
+      <label class="field"><span>Budget &amp; currency</span><input name="budget" maxlength="300" value="{{ brief.budget }}"/></label>
+      <label class="field"><span>Timeline or release date</span><input name="timeline" maxlength="300" value="{{ brief.timeline }}"/></label>
+      <button class="button">Save shared brief</button>
+    </form>
+  </section>
+  {% endif %}
+
+  {% if not agent and view != 'library' %}
+  <section class="studio-hero"><div><span class="pill">9 SPECIALISTS &middot; ONE CREATIVE VISION</span><h2>You don&rsquo;t have to figure<br/>everything out alone.</h2><p>Develop your sound with A&amp;R. Build your next move with a manager. Bring it to your audience with marketing and publicity.</p><form method="post" action="/assistants/start">{% csrf_token %}<input type="hidden" name="agent" value="manager"/><button class="button">Start with your Artist Manager &#8599;</button></form></div><div class="team-orbit" aria-hidden="true"><span class="orbit-center">YOU<span>the creative</span></span><span class="orbit-agent orbit-agent-0">AR</span><span class="orbit-agent orbit-agent-1">AM</span><span class="orbit-agent orbit-agent-2">MS</span><span class="orbit-agent orbit-agent-3">PR</span><span class="orbit-agent orbit-agent-4">RA</span><span class="orbit-agent orbit-agent-5">SW</span></div></section>
+  <div class="studio-section-title"><div><p class="eyebrow">YOUR SPECIALIST ROSTER</p><h2>The right expertise, when you need it.</h2></div><form class="category-tabs" method="get" action="/assistants" aria-label="Filter specialists">{% for option in categories %}<button name="category" value="{{ option }}" aria-pressed="{% if option == category %}true{% else %}false{% endif %}">{{ option }}</button>{% endfor %}</form></div>
+  <div class="agent-grid">{% for a in agents %}<article class="agent-tile" style="--agent-color: {{ a.color }}"><div class="agent-tile-top"><span class="agent-avatar">{{ a.initials }}</span><span class="agent-category">{{ a.category }} &middot; AI</span></div><h3>{{ a.name }}</h3><h4>{{ a.tagline }}</h4><p>{{ a.description }}</p><div class="agent-output"><small>WORK ON</small><span>{{ a.deliverable }}</span></div><form method="post" action="/assistants/start">{% csrf_token %}<input type="hidden" name="agent" value="{{ a.id }}"/><button>Work with {{ a.name }} <span>&#8599;</span></button></form></article>{% endfor %}</div>
+  <div class="studio-section-title"><div><p class="eyebrow">SPECIALISTS, WORKING TOGETHER</p><h2>Start with a goal. Bring in the team.</h2></div></div>
+  <div class="workflow-grid">{% for w in workflows %}<article class="panel workflow-card"><h3>{{ w.name }}</h3><p>{{ w.description }}</p><ol>{% for step in w.steps %}<li><span>{% agent_field step "initials" %}</span>{% agent_field step "name" %}</li>{% endfor %}</ol><form method="post" action="/assistants/start">{% csrf_token %}<input type="hidden" name="workflow" value="{{ w.id }}"/><button>Start workflow &rarr;</button></form></article>{% endfor %}</div>
+  {% if conversations %}<section class="panel"><h2>Pick up where you left off</h2><div class="session-list">{% for item in conversations|slice:":12" %}<a href="/assistants?agent={{ item.agent_id }}&amp;session={{ item.id }}"><span class="agent-avatar" style="--agent-color: {% agent_field item.agent_id 'color' %}">{% agent_field item.agent_id "initials" %}</span><span><strong>{{ item.title }}</strong><small>{% agent_field item.agent_id "name" %} &middot; {{ item.messages.count }} messages</small></span><span>&#8599;</span></a>{% endfor %}</div></section>{% endif %}
+  {% endif %}
+
+  {% if not agent and view == 'library' %}
+  <section><h2>Your team's work, in one place.</h2><p>Saved responses remain connected to the specialist and conversation that created them.</p>
+    {% if not deliverables %}<div class="empty"><h3>Your next idea belongs here.</h3><p>Save a specialist&rsquo;s response to build your work library.</p><a href="/assistants">Meet your team &rarr;</a></div>{% endif %}
+    {% for item in deliverables %}<article class="panel"><p class="eyebrow">{% agent_field item.agent_id "name" %}</p><h3>{{ item.title }}</h3><div class="response-text">{{ item.content }}</div><div class="actions"><a href="/assistants?agent={{ item.agent_id }}&amp;session={{ item.conversation_id }}">Open conversation &rarr;</a><a href="/assistants/work/{{ item.id }}.txt">Download work</a></div></article>{% endfor %}
+    {% if drafts %}<section class="panel"><h3>Earlier planning templates</h3>{% for draft in drafts %}<details><summary>{{ draft.text|first_line }}</summary><pre>{{ draft.text }}</pre></details>{% endfor %}</section>{% endif %}
+  </section>
+  {% endif %}
+
+  {% if agent %}
+  <div class="agent-workspace" style="--agent-color: {{ agent.color }}">
+    <section class="conversation-panel">
+      {% if current %}<form method="post" action="/assistants/delete/{{ current.id }}">{% csrf_token %}<button>Delete conversation and saved work</button></form>{% endif %}<header class="conversation-heading"><span class="agent-avatar">{{ agent.initials }}</span><div><h2>{{ agent.name }}</h2><p>{{ agent.tagline }}</p></div><form method="post" action="/assistants/start">{% csrf_token %}<input type="hidden" name="agent" value="{{ agent.id }}"/><button>New session +</button></form></header>
+      {% if workflow %}<div class="workflow-progress"><p>{{ workflow.name }}</p><ol>{% for step in workflow.steps %}<li class="{{ step.state }}">{{ step.marker }} &middot; {{ step.name }}</li>{% endfor %}</ol></div>{% endif %}
+      {% if status != 'ready' %}<div class="connection-note"><strong>Your team is ready for a connection.</strong><p>You can prepare your brief and save messages now. Specialist responses become available when the workspace&rsquo;s AI connection is configured.</p><a href="/signup?mode=signin">Sign in to your account &rarr;</a></div>{% endif %}
+      <div class="conversation-messages" role="log" aria-label="{{ agent.name }} conversation" aria-live="polite">
+        {% if current.handoff %}<details class="handoff-note"><summary>Brief received from {% agent_field current.handoff.from "name" %}</summary><p>{{ current.handoff.originalBrief }}</p><div class="response-text">{{ current.handoff.content }}</div></details>{% endif %}
+        {% if not thread %}<div class="agent-welcome"><span class="agent-avatar large">{{ agent.initials }}</span><h2>Let&rsquo;s work on your next chapter.</h2><p>{{ agent.description }}</p><small>START WITH A QUESTION</small><div class="starter-prompts">{% for starter in agent.starters %}<button type="button" data-starter="{{ starter }}">{{ starter }} <span>&#8599;</span></button>{% endfor %}</div></div>{% endif %}
+        {% for message in thread %}<article class="chat-message {{ message.role }}"><div class="message-byline">{% if message.role == 'user' %}{{ profile.name|default:"You" }}{% else %}{{ agent.name }} &middot; AI{% endif %}</div><div class="response-text">{{ message.content }}</div>
+          {% if message.role == 'assistant' %}<div class="message-tools"><form method="post" action="/assistants/save">{% csrf_token %}<input type="hidden" name="message" value="{{ message.id }}"/><button{% if message.saved %} disabled{% endif %}>{% if message.saved %}Saved to work library &#10003;{% else %}Save to work library{% endif %}</button></form></div>
+          {% if message.actions %}<details class="action-transfer"><summary>Next actions &middot; {{ message.actions|length }}</summary><ul>{% for action in message.actions %}<li>{{ action }}</li>{% endfor %}</ul>
+            {% if releases %}<form method="post" action="/assistants/actions">{% csrf_token %}<input type="hidden" name="message" value="{{ message.id }}"/><label class="field"><span>Release plan</span><select name="release" required>{% for release in releases %}<option value="{{ release.id }}">{{ release.title }}</option>{% endfor %}</select></label><fieldset><legend>Choose actions to add</legend>{% for action in message.actions %}<label class="task"><input type="checkbox" name="action" value="{{ forloop.counter0 }}" checked/>{{ action }}</label>{% endfor %}</fieldset><button>Add selected actions to release</button></form>{% else %}<a href="/release-planner">Create a release plan to use these actions &rarr;</a>{% endif %}
+          </details>{% endif %}{% endif %}
+        </article>{% endfor %}
+        {% if last_message_is_user %}<form method="post" action="/assistants/send">{% csrf_token %}<input type="hidden" name="session" value="{{ current.id }}"/><input type="hidden" name="retry" value="1"/><button class="retry-button">Get response / retry &#8635;</button></form>{% endif %}
+      </div>
+      <form class="chat-composer" method="post" action="/assistants/send" data-composer>{% csrf_token %}<input type="hidden" name="session" value="{{ current.id }}"/>
+        <label for="agent-message">Message your {{ agent.name }}</label>
+        <textarea id="agent-message" name="message" rows="3" maxlength="6000" placeholder="Tell your {{ agent.name }} what you&rsquo;re working on&hellip;" data-message>{{ draft }}</textarea>
+        <div><small><span data-count>{{ draft|length }}</span>/6,000 &middot; Text conversations</small><button class="button">{% if status == 'ready' %}Send message &uarr;{% else %}Save message{% endif %}</button></div>
+        <p class="sharing-note">Sending shares your messages, any handoff, and the account context permitted in your AI settings with the model provider. Review the context beside this conversation.</p>
+      </form>
+    </section>
+    <aside class="agent-context">
+      <section class="panel"><p class="eyebrow">WHAT YOUR AGENT KNOWS</p><h3>{{ shared_context.artist.name|default:"Your artist profile" }}</h3><p>{{ shared_context.artist.role }}{% if shared_context.artist.city %} &middot; {{ shared_context.artist.city }}{% endif %}</p>
+        <dl><dt>Genres</dt><dd>{{ shared_context.artist.genres|join:", "|default:"Not added" }}</dd><dt>Goals</dt><dd>{{ shared_context.artist.goals|join:", "|default:"Not added" }}</dd><dt>Project</dt><dd>{{ shared_context.brief.project|default:"Not added" }}</dd><dt>Objective</dt><dd>{{ shared_context.brief.objective|default:"Not added" }}</dd><dt>Audience</dt><dd>{{ shared_context.brief.audience|default:"Not added" }}</dd><dt>Budget</dt><dd>{{ shared_context.brief.budget|default:"Not added" }}</dd><dt>Timeline</dt><dd>{{ shared_context.brief.timeline|default:"Not added" }}</dd></dl>
+        <details><summary>Review full shared context</summary><pre>{{ shared_context_json }}</pre></details>
+        <a href="?agent={{ agent.id }}{% if current %}&amp;session={{ current.id }}{% endif %}&amp;brief=open">Edit shared brief</a>
+        {% if current %}<form method="post" action="/assistants/refresh">{% csrf_token %}<input type="hidden" name="session" value="{{ current.id }}"/><button>Refresh session context</button></form>{% endif %}
+      </section>
+      <section class="panel handoff-panel"><p class="eyebrow">KEEP YOUR TEAM CONNECTED</p><h3>{% if next_agent %}Next: {{ next_agent.name }}{% else %}Bring in another specialist{% endif %}</h3><p>Pass your brief and the latest response forward. You choose when the next specialist starts.</p>
+        {% if last_reply %}<a href="/assistants/feedback/{{ last_reply.id }}">Rate or report response</a><form id="handoff-form" method="post" action="/assistants/handoff">{% csrf_token %}<input type="hidden" name="session" value="{{ current.id }}"/><label class="field"><span>Send the brief to</span><select id="handoff-target" name="target">{% for other in other_agents %}<option value="{{ other.id }}"{% if other.id == handoff_default %} selected{% endif %}>{{ other.name }}</option>{% endfor %}</select></label><button class="button">Hand off brief &rarr;</button></form>{% else %}<small>A handoff becomes available after a specialist responds.</small>{% endif %}
+      </section>
+      {% if earlier_sessions %}<section class="panel"><h3>Earlier sessions</h3>{% for item in earlier_sessions %}<a class="earlier-session" href="/assistants?agent={{ agent.id }}&amp;session={{ item.id }}">{{ item.title }} &#8599;</a>{% endfor %}</section>{% endif %}
+    </aside>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+{% block page_scripts %}<script src="{% static 'js/ai_studio.js' %}" defer></script>{% endblock %}

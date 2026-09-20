@@ -1,0 +1,63 @@
+x-app: &app
+  build: .
+  env_file: .env.local
+  environment: &environment
+    PORT: 8001
+    MYSQL_DATABASE: soundbridge
+    MYSQL_USER: soundbridge
+    MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Set MYSQL_PASSWORD in the shell or Compose env file}
+    MYSQL_HOST: db
+    MYSQL_PORT: 3306
+    CELERY_BROKER_URL: redis://redis:6379/0
+    SOUNDBRIDGE_MALWARE_SCANNER: /usr/bin/clamscan
+  volumes:
+    - clamav:/var/lib/clamav
+  depends_on:
+    db:
+      condition: service_healthy
+    redis:
+      condition: service_started
+services:
+  web:
+    <<: *app
+    # Published on every interface: with no domain name yet, the site is reached
+    # at http://<server-ip>:8001, so port 8001 must be open in the EC2 security
+    # group. Put this back to '127.0.0.1:8001:8001' the moment a reverse proxy
+    # terminates TLS in front of it.
+    ports: ['0.0.0.0:8001:8001']
+    healthcheck:
+      disable: true
+  worker:
+    <<: *app
+    command: celery -A config.celery worker --loglevel=INFO --concurrency=2
+    healthcheck:
+      disable: true
+  scheduler:
+    <<: *app
+    command: celery -A config.celery beat --loglevel=INFO --schedule=/tmp/celerybeat-schedule
+    healthcheck:
+      disable: true
+  db:
+    # 8.0 or newer: the schema uses JSON columns and a CHECK constraint, which
+    # older MySQL accepts and then silently ignores.
+    image: mysql:8.0
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_0900_ai_ci
+    environment:
+      MYSQL_DATABASE: soundbridge
+      MYSQL_USER: soundbridge
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Set MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Set MYSQL_ROOT_PASSWORD}
+    volumes: ['mysql:/var/lib/mysql']
+    healthcheck:
+      test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 -u root -p"$$MYSQL_ROOT_PASSWORD" --silent']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  redis:
+    image: redis:7
+    command: redis-server --appendonly yes
+    volumes: ['redis:/data']
+volumes:
+  mysql:
+  redis:
+  clamav:

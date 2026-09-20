@@ -1,0 +1,16 @@
+{% extends "shell.html" %}
+{# Port of the Collaborations component in src/main.jsx. #}
+{% block content %}<p><a href="/collaborations/invitations">Your invitations and joined projects</a></p>
+{% include "partials/heading.html" with title="Create something together." description="Keep collaboration briefs and saved creators in one place." %}
+<form class="panel form-grid" method="post" action="/collaborations">{% csrf_token %}
+  <label class="field"><span>Project name</span><input name="title" required pattern=".*\S.*"/></label>
+  <label class="field"><span>Collaborator</span><select name="creator"><option>Not assigned</option>{% for creator in saved_creators %}<option>{{ creator.name }}</option>{% endfor %}</select></label>
+  <label class="field"><span>Collaboration brief</span><textarea name="brief" required rows="3"></textarea></label>
+  <button class="button">Create project</button>
+  <p>Briefs are saved to your workspace. No invitation is sent.</p>
+</form>
+{% for project in projects %}<article class="panel list-row"><div><h3><a href="/collaborations/{{ project.id }}">{{ project.title }}</a></h3><p>{{ project.collaborator }} &middot; {{ project.brief }}</p></div><form method="post" action="/collaborations">{% csrf_token %}<input type="hidden" name="action" value="toggle"/><input type="hidden" name="id" value="{{ project.id }}"/><button>{% if project.done %}Completed &#10003;{% else %}Mark complete{% endif %}</button></form></article>{% endfor %}
+<h2>Saved creators</h2>
+<div class="cards">{% for creator in saved_creators %}{% include "partials/creator_card.html" %}{% endfor %}</div>
+{% if not saved_creators %}{% include "partials/empty.html" with title="Your creative circle starts here" link_url="/discover" link_label="Discover creators →" %}{% endif %}
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "shell.html" %}
+{# Port of the Opportunities component in src/main.jsx. #}
+{% block content %}
+{% include "partials/heading.html" with title="Make room for opportunity." description="Sample briefs to practise your pitch. Applications are workspace drafts and are not submitted." %}
+<form method="get" action="/opportunities"><label class="field"><span>Opportunity type</span><select name="type" onchange="this.form.submit()">{% for option in types %}<option{% if option == selected_type %} selected{% endif %}>{{ option }}</option>{% endfor %}</select></label><noscript><button>Filter</button></noscript></form>
+<div class="cards">{% for opportunity in opportunities %}<form class="panel" method="post" action="/opportunities">{% csrf_token %}<input type="hidden" name="slug" value="{{ opportunity.slug }}"/><input type="hidden" name="type" value="{{ selected_type }}"/><span class="pill">{{ opportunity.type }} &middot; {{ opportunity.city }}</span><h2>{{ opportunity.title }}</h2><p>{{ opportunity.description }}</p><label class="field"><span>Your pitch</span><textarea name="pitch" required minlength="20" rows="5">{{ opportunity.pitch }}</textarea></label><button class="button">Save application draft</button></form>{% endfor %}</div>
+{% endblock %}

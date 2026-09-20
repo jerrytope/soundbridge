@@ -1,0 +1,436 @@
+{% extends "base.html" %}{% load static %}
+{# Port of src/Landing.jsx. Elements, classes, ids and copy are unchanged; the
+   buttons that called navigate() carry data-href and are handled by
+   static/js/landing.js, so the CSS selectors still match. #}
+{% block root %}
+<div class="landing" data-landing>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+
+  <header class="header">
+    <a href="#home" class="logo">
+      <span class="logo-icon">S</span>
+      <span>SoundBridge</span>
+    </a>
+
+    <nav class="desktop-navigation">
+      <a href="#discover">Discover</a>
+      <a href="#ai-studio">AI Studio</a>
+      <a href="#royalties">Royalties</a>
+      <a href="#pro">Pro</a>
+    </nav>
+
+    <div class="header-actions">
+      <a href="/signup?mode=signin" class="sign-in-button">
+       Sign in
+       </a>
+
+      <a href="/signup" class="join-button">
+       Join the network
+      </a>
+    </div>
+
+    <button class="mobile-menu-button" id="openMenuButton" aria-label="Open navigation menu" aria-controls="mobileNavigation" aria-expanded="false">
+      &#9776;
+    </button>
+  </header>
+
+
+  <div class="mobile-navigation" id="mobileNavigation" aria-hidden="true">
+    <button class="close-menu-button" id="closeMenuButton" aria-label="Close navigation menu">
+      &times;
+    </button>
+
+    <a href="#discover">Discover</a>
+    <a href="#ai-studio">AI Studio</a>
+    <a href="#royalties">Royalties</a>
+    <a href="#pro">Pro membership</a>
+    <a href="/signup" class="primary-button">
+     Create your profile
+     </a>
+  </div>
+
+  <main>
+
+    <section class="hero section" id="home">
+      <div class="hero-content">
+        <p class="eyebrow">
+          <span class="live-dot"></span>
+          The professional network for music
+        </p>
+
+        <h1>
+          Your sound.
+          <span>Your people.</span>
+          Your business.
+        </h1>
+
+        <p class="hero-description">
+          Show your work, find collaborators, run your career with AI
+          and understand every stream of music income.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="/signup" class="primary-button large-button">
+           Build your profile
+         <span>&rarr;</span>
+          </a>
+
+          <button class="play-demo-button" id="heroPlayButton" data-href="/discover">
+            <span class="play-circle" id="heroPlayIcon">&#9654;</span>
+            <span id="heroPlayText">Explore the network</span>
+          </button>
+        </div>
+      </div>
+
+
+      <div class="music-orbit">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+
+        <div class="record" id="record">
+          <div class="record-center">SB</div>
+        </div>
+
+        <div class="floating-label producer-label">
+          Producer &middot; 92% match
+        </div>
+
+        <div class="floating-label opportunity-label">
+          New opportunity
+        </div>
+      </div>
+
+      <div class="moving-banner">
+        <div>
+          Artists &middot; Producers &middot; Songwriters &middot; Managers &middot; A&amp;R &middot;
+          Engineers &middot; Legal Teams &middot; Labels &middot; Artists &middot; Producers &middot;
+          Songwriters &middot; Managers &middot;
+        </div>
+      </div>
+    </section>
+
+
+    <section class="problem-section section reveal">
+      <p class="section-label">01 / The gap</p>
+
+      <h2>
+        Music careers happen across
+        <span>too many tabs.</span>
+      </h2>
+
+      <p class="section-description">
+        SoundBridge brings the professional side of music into one
+        connected space. Your profile becomes the context behind every
+        recommendation, plan and royalty insight.
+      </p>
+
+      <div class="connection-line">
+        <span>Identity</span>
+        <i></i>
+        <span>Opportunity</span>
+        <i></i>
+        <span>Intelligence</span>
+        <i></i>
+        <span>Income</span>
+      </div>
+    </section>
+
+
+    <section class="discover-section section reveal" id="discover">
+      <div class="section-heading">
+        <div>
+          <p class="section-label">02 / Discover</p>
+
+          <h2>
+            Find the people
+            <span>your sound needs.</span>
+          </h2>
+        </div>
+
+        <button class="outline-button" data-href="/discover">
+          Search the network
+        </button>
+      </div>
+
+      <div class="creator-grid">
+        <article class="creator-card">
+          <div class="creator-top">
+            <div class="creator-avatar lime-avatar">AK</div>
+            <span class="match-text">96% match</span>
+          </div>
+
+          <h3>Ama K.</h3>
+          <p>Alt&eacute; artist &middot; Lagos</p>
+
+          <div class="sound-wave"></div>
+
+          <button class="text-link" data-href="/discover">
+            View profile &rarr;
+          </button>
+        </article>
+
+        <article class="creator-card">
+          <div class="creator-top">
+            <div class="creator-avatar cyan-avatar">KM</div>
+            <span class="match-text">92% match</span>
+          </div>
+
+          <h3>Kofi Mensah</h3>
+          <p>Producer &middot; Accra</p>
+
+          <div class="sound-wave"></div>
+
+          <button class="text-link" data-href="/discover">
+            View profile &rarr;
+          </button>
+        </article>
+
+        <article class="creator-card">
+          <div class="creator-top">
+            <div class="creator-avatar pink-avatar">MR</div>
+            <span class="match-text">89% match</span>
+          </div>
+
+          <h3>Maya Reign</h3>
+          <p>Songwriter &middot; London</p>
+
+          <div class="sound-wave"></div>
+
+          <button class="text-link" data-href="/discover">
+            View profile &rarr;
+          </button>
+        </article>
+      </div>
+    </section>
+
+
+    <section class="ai-section section reveal" id="ai-studio">
+      <p class="section-label">03 / AI Studio</p>
+
+      <div class="ai-introduction">
+        <h2>
+          Your music-industry
+          <span>AI team.</span>
+        </h2>
+
+        <p>
+          Work with specialist AI advisors in A&amp;R, management, production,
+          songwriting, marketing, publicity, royalties, rights and live performance.
+          One artist brief connects your team; you direct the next move.
+        </p>
+      </div>
+
+      <div class="agent-list">
+        <article class="agent-row">
+          <span class="agent-number">01</span>
+          <span class="agent-icon purple">&#10022;</span>
+
+          <div>
+            <h3>A&amp;R Assistant</h3>
+            <p>
+              Receive structured feedback about your sound,
+              positioning and release readiness.
+            </p>
+          </div>
+
+          <button aria-label="Open assistants" data-href="/assistants?agent=ar">&rarr;</button>
+        </article>
+
+        <article class="agent-row">
+          <span class="agent-number">02</span>
+          <span class="agent-icon lime">&#8358;</span>
+
+          <div>
+            <h3>Royalty Intelligence</h3>
+            <p>
+              Understand what you earned and identify income that
+              could be missing.
+            </p>
+          </div>
+
+          <button aria-label="Open assistants" data-href="/assistants?agent=royalties">&rarr;</button>
+        </article>
+
+        <article class="agent-row">
+          <span class="agent-number">03</span>
+          <span class="agent-icon cyan">&#9678;</span>
+
+          <div>
+            <h3>Career Manager</h3>
+            <p>
+              Convert your career goals into priorities, tasks and
+              weekly action plans.
+            </p>
+          </div>
+
+          <button aria-label="Open assistants" data-href="/assistants?agent=manager">&rarr;</button>
+        </article>
+
+        <article class="agent-row">
+          <span class="agent-number">04</span>
+          <span class="agent-icon pink">Aa</span>
+
+          <div>
+            <h3>Content Assistant</h3>
+            <p>
+              Create campaign ideas, content schedules and captions
+              around your releases.
+            </p>
+          </div>
+
+          <button aria-label="Open assistants" data-href="/assistants?agent=marketing">&rarr;</button>
+        </article>
+      </div>
+    </section>
+
+
+    <section class="royalty-section reveal" id="royalties">
+      <div class="royalty-content">
+        <p class="section-label dark-label">
+          04 / Royalty intelligence
+        </p>
+
+        <h2>
+          See where the
+          <span>money moves.</span>
+        </h2>
+
+        <p>
+          Upload royalty statements, connect approved platforms and
+          understand master, mechanical, performance, neighbouring
+          rights and producer income without confusing language.
+        </p>
+
+        <button class="dark-button" data-href="/royalties">
+          Explore royalty tools &rarr;
+        </button>
+      </div>
+
+      <div class="royalty-graphic">
+        <div class="money-circle">
+          <strong>$12,840</strong>
+          <span>Estimated catalogue value</span>
+        </div>
+
+        <div class="income-card streaming-card">
+          <span>Streaming</span>
+          <strong>$4,210</strong>
+        </div>
+
+        <div class="income-card performance-card">
+          <span>Performance</span>
+          <strong>$2,906</strong>
+        </div>
+
+        <div class="income-card mechanical-card">
+          <span>Mechanical</span>
+          <strong>$1,488</strong>
+        </div>
+
+        <small>Illustrative figures only</small>
+      </div>
+    </section>
+
+
+    <section class="pro-section section reveal" id="pro">
+      <p class="section-label">05 / Membership</p>
+
+      <h2>
+        Start free.
+        <span>Go deeper with Pro.</span>
+      </h2>
+
+      <div class="pricing-grid">
+        <article class="price-card">
+          <p class="plan-name">Free</p>
+          <h3>Build your presence</h3>
+
+          <ul>
+            <li>Professional creator profile</li>
+            <li>Music portfolio and credits</li>
+            <li>Creator discovery</li>
+            <li>Limited opportunity applications</li>
+            <li>AI assistant previews</li>
+            <li>Manual royalty estimates</li>
+          </ul>
+
+          <button class="outline-button full-button" data-href="/signup">
+            Start for free
+          </button>
+        </article>
+
+        <article class="price-card pro-card">
+          <p class="plan-name">SoundBridge Pro</p>
+          <h3>Run your career</h3>
+
+          <ul>
+            <li>Complete AI assistant suite</li>
+            <li>Advanced creator matching</li>
+            <li>Higher messaging limits</li>
+            <li>Release and strategy plans</li>
+            <li>Royalty statement analysis</li>
+            <li>Forecasts, reports and exports</li>
+          </ul>
+
+          <button class="primary-button full-button" data-href="/membership">
+            Join Pro
+          </button>
+        </article>
+      </div>
+    </section>
+
+
+    <section class="join-section section reveal" id="join">
+      <div class="join-icon">&#9834;</div>
+
+      <h2>
+        Your next move starts
+        <span>with a profile.</span>
+      </h2>
+
+      <p>
+        Join the early SoundBridge professional music network.
+      </p>
+
+      <a href="/signup" class="primary-button large-button">
+      Claim your name &rarr;
+      </a>
+    </section>
+  </main>
+
+
+  <footer class="footer">
+    <a href="#home" class="logo">
+      <span class="logo-icon">S</span>
+      <span>SoundBridge</span>
+    </a>
+
+    <p>Built for the people behind the music.</p>
+
+    <span>&copy; <span>{{ year }}</span> SoundBridge</span>
+  </footer>
+
+
+  <div class="music-player">
+    <button class="player-button" id="playerButton" data-href="/discover" aria-label="Explore creators">
+      <span id="playerIcon">&#9654;</span>
+    </button>
+
+    <div class="track-information">
+      <strong>Discover your next collaborator</strong>
+      <span>Explore the SoundBridge network</span>
+    </div>
+
+    <div class="player-wave" id="playerWave"></div>
+
+    <button class="connect-button" data-href="/discover">
+      Connect
+    </button>
+  </div>
+
+
+</div>
+{% endblock %}
+{% block scripts %}<script src="{% static 'js/landing.js' %}" defer></script>{% endblock %}

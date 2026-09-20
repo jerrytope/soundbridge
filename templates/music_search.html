@@ -1,0 +1,15 @@
+{% extends "shell.html" %}
+{# Port of src/backend/MusicSearch.jsx. The search runs on the server and the
+   results render with the same markup. #}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">MUSIC CATALOG</p><h1>Find it on Spotify.</h1><p>Search artists, albums and tracks, then open the original listing on Spotify.</p></div></div>
+<section class="panel"><h2>API connections</h2><p>OpenAI: {% if status.openai %}Credentials configured{% else %}Not configured{% endif %}</p><p>Spotify: {% if status.spotify %}Credentials configured{% else %}Not configured{% endif %}</p>{% if not status.spotify %}<p>Spotify search becomes available when the workspace owner connects Spotify.</p>{% endif %}</section>
+<form class="panel form-grid" method="get" action="/music-search">
+  <label class="field"><span>Artist, album or track name</span><input name="q" required maxlength="150" placeholder="Search music" value="{{ q }}"/></label>
+  <label class="field"><span>Search for</span><select name="type"><option value="artist"{% if type == 'artist' %} selected{% endif %}>Artists</option><option value="album"{% if type == 'album' %} selected{% endif %}>Albums</option><option value="track"{% if type == 'track' %} selected{% endif %}>Tracks</option></select></label>
+  <label class="field"><span>Market</span><select name="market"><option value="NG"{% if market == 'NG' %} selected{% endif %}>Nigeria</option><option value="GH"{% if market == 'GH' %} selected{% endif %}>Ghana</option><option value="ZA"{% if market == 'ZA' %} selected{% endif %}>South Africa</option><option value="GB"{% if market == 'GB' %} selected{% endif %}>United Kingdom</option><option value="US"{% if market == 'US' %} selected{% endif %}>United States</option></select></label>
+  <button class="button"{% if not status.spotify %} disabled{% endif %}>Search Spotify</button>
+</form>
+{% if error %}<p role="alert" class="error">{{ error }}</p>{% endif %}
+{% if items != None %}<section aria-live="polite"><h2>{% if items %}Results from Spotify{% else %}No matches found{% endif %}</h2>{% for item in items %}<article class="panel list-row"><div><h3>{{ item.name }}</h3><p>{{ item.type }} {% if item.artists %}&middot; {{ item.artists|join:", " }}{% endif %} {% if item.releaseDate %}&middot; {{ item.releaseDate }}{% endif %}</p></div><a href="{{ item.url }}" target="_blank" rel="noopener noreferrer">Open on Spotify &#8599;</a></article>{% endfor %}</section>{% endif %}
+{% endblock %}

@@ -1,0 +1,10 @@
+/* Honor hidden state even when responsive component rules change display. */
+[hidden] { display: none !important; }
+#main form > p { margin: 0 0 1rem; }
+#main form > p > label { display: block; margin-bottom: .4rem; color: #d8d5e1; }
+#main .errorlist { color: #ffb4b4; }
+#main fieldset { border: 1px solid #41404b; border-radius: 8px; margin-bottom: 1rem; }
+#main article, #main dd, #main p { overflow-wrap: anywhere; }
+#main time { display: block; color: #aaa9b8; font-size: .85rem; }
+.table-scroll { max-width: 100%; overflow-x: auto; }
+.table-scroll:focus-visible { outline: 2px solid #c8f36c; }

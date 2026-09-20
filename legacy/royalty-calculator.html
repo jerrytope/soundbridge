@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Royalty Calculator | SoundBridge</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="royalty-calculator.css">
+</head>
+
+<body>
+
+  <header class="calculator-header">
+
+    <a href="portal.html" class="logo">
+      Sound<span>Bridge</span>
+    </a>
+
+    <a href="portal.html" class="dashboard-link">
+      ← Back to dashboard
+    </a>
+
+  </header>
+
+  <main class="calculator-page">
+
+    <section class="calculator-introduction">
+
+      <div>
+        <p class="eyebrow">AI ROYALTY INTELLIGENCE</p>
+
+        <h1>
+          Turn your streams into
+          <span>clear estimates.</span>
+        </h1>
+
+        <p class="introduction-text">
+          Estimate potential master-recording revenue using your
+          platform, audience location, streams and ownership percentage.
+        </p>
+      </div>
+
+      <div class="information-badge">
+        <span>i</span>
+
+        <p>
+          Estimates are educational and are not guaranteed payments.
+        </p>
+      </div>
+
+    </section>
+
+    <div class="calculator-layout">
+
+      <form class="calculator-form" id="calculatorForm">
+
+        <div class="form-header">
+          <span>01</span>
+
+          <div>
+            <h2>Streaming information</h2>
+            <p>Enter the details you want to estimate.</p>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="platform">Streaming platform</label>
+
+          <select id="platform" required>
+            <option value="">Select a platform</option>
+            <option value="spotify">Spotify</option>
+            <option value="apple">Apple Music</option>
+            <option value="boomplay">Boomplay</option>
+            <option value="audiomack">Audiomack</option>
+            <option value="youtube">YouTube Music</option>
+            <option value="amazon">Amazon Music</option>
+            <option value="tidal">Tidal</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="streams">Number of streams</label>
+
+          <input
+            type="number"
+            id="streams"
+            min="1"
+            placeholder="For example: 100000"
+            required
+          >
+
+          <div class="quick-streams">
+            <button type="button" data-streams="1000">1K</button>
+            <button type="button" data-streams="10000">10K</button>
+            <button type="button" data-streams="100000">100K</button>
+            <button type="button" data-streams="1000000">1M</button>
+          </div>
+        </div>
+
+        <div class="input-grid">
+
+          <div class="input-group">
+            <label for="territory">Main audience location</label>
+
+            <select id="territory">
+              <option value="global">Mixed/global audience</option>
+              <option value="nigeria">Nigeria</option>
+              <option value="africa">Other African countries</option>
+              <option value="usa">United States</option>
+              <option value="uk">United Kingdom</option>
+              <option value="europe">Europe</option>
+              <option value="other">Other territories</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="currency">Display currency</label>
+
+            <select id="currency">
+              <option value="NGN">Nigerian naira</option>
+              <option value="USD">US dollar</option>
+              <option value="GBP">British pound</option>
+              <option value="EUR">Euro</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="input-group">
+          <div class="ownership-heading">
+            <label for="ownership">
+              Your master ownership
+            </label>
+
+            <strong id="ownershipValue">100%</strong>
+          </div>
+
+          <input
+            type="range"
+            id="ownership"
+            min="0"
+            max="100"
+            value="100"
+          >
+
+          <div class="range-labels">
+            <span>0%</span>
+            <span>50%</span>
+            <span>100%</span>
+          </div>
+        </div>
+
+        <button type="submit" class="calculate-button">
+          Calculate estimated royalties
+          <span>→</span>
+        </button>
+
+        <p class="form-error" id="formError"></p>
+
+      </form>
+
+      <section class="result-panel">
+
+        <div class="result-top">
+          <div>
+            <p>ESTIMATED MASTER ROYALTIES</p>
+            <span id="resultPlatform">Select a platform</span>
+          </div>
+
+          <span class="result-status">ESTIMATE</span>
+        </div>
+
+        <div class="main-result">
+
+          <small id="resultCurrency">₦</small>
+
+          <strong id="estimatedAmount">0</strong>
+
+        </div>
+
+        <p class="result-range" id="resultRange">
+          Enter your streaming information to calculate an estimate.
+        </p>
+
+        <div class="result-breakdown">
+
+          <div>
+            <span>Estimated gross revenue</span>
+            <strong id="grossRevenue">—</strong>
+          </div>
+
+          <div>
+            <span>Your ownership</span>
+            <strong id="ownershipResult">100%</strong>
+          </div>
+
+          <div>
+            <span>Your estimated share</span>
+            <strong id="artistShare">—</strong>
+          </div>
+
+          <div>
+            <span>Estimated rate per stream</span>
+            <strong id="streamRate">—</strong>
+          </div>
+
+        </div>
+
+        <div class="result-note">
+
+          <span>!</span>
+
+          <p>
+            Actual payments can change because of subscription type,
+            listener country, distributor fees, taxes, agreements and
+            the platform’s revenue during that period.
+          </p>
+
+        </div>
+
+        <button class="save-button" id="saveCalculation" disabled>
+          Save calculation
+        </button>
+
+      </section>
+
+    </div>
+
+    <section class="education-section">
+
+      <div class="education-heading">
+        <p class="eyebrow">KNOW YOUR MONEY</p>
+        <h2>This estimate is only one royalty type.</h2>
+
+        <p>
+          A recording can generate several kinds of income. Streaming
+          revenue does not automatically include all of them.
+        </p>
+      </div>
+
+      <div class="royalty-type-grid">
+
+        <article>
+          <span>01</span>
+          <h3>Master recording royalties</h3>
+          <p>
+            Money generated by the recorded version of a song. It is
+            normally paid to whoever owns the master recording.
+          </p>
+        </article>
+
+        <article>
+          <span>02</span>
+          <h3>Mechanical royalties</h3>
+          <p>
+            Money connected to reproducing or distributing a musical
+            composition, including certain digital uses.
+          </p>
+        </article>
+
+        <article>
+          <span>03</span>
+          <h3>Performance royalties</h3>
+          <p>
+            Income generated when compositions are broadcast, performed
+            publicly or used through qualifying services.
+          </p>
+        </article>
+
+        <article>
+          <span>04</span>
+          <h3>Neighbouring rights</h3>
+          <p>
+            Certain payments made to recording owners and performers
+            when recorded music is publicly used or broadcast.
+          </p>
+        </article>
+
+        <article>
+          <span>05</span>
+          <h3>Sync royalties</h3>
+          <p>
+            Income from licensing music for films, television,
+            advertisements, games and other visual media.
+          </p>
+        </article>
+
+        <article>
+          <span>06</span>
+          <h3>Producer points</h3>
+          <p>
+            A producer may receive an agreed percentage of master
+            revenue according to the production agreement.
+          </p>
+        </article>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <div class="toast" id="toast">
+    Calculation saved to this browser.
+  </div>
+
+  <script src="royalty-calculator.js"></script>
+
+</body>
+</html>

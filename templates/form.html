@@ -1,0 +1,1 @@
+{% extends 'shell.html' %}{% block content %}<h1>{{ title }}</h1>{% if description %}<p>{{ description }}</p>{% endif %}<section class="panel"><form method="post" enctype="multipart/form-data">{% csrf_token %}{{ form.as_p }}<button class="button">{{ submit_label|default:'Save' }}</button></form></section>{% endblock %}

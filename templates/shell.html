@@ -1,0 +1,50 @@
+{% extends "base.html" %}{% load ui static %}
+{# Port of the Shell component in src/main.jsx: same elements, classes, copy
+   and ARIA attributes, so design.css applies unchanged. #}
+{% block root %}
+<div class="workspace">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <aside id="workspace-navigation" class="sidebar" aria-label="Main navigation" data-drawer>
+    <a class="brand" href="/"><span class="brand-mark"><i></i><i></i><i></i><i></i></span>Sound<span>Bridge</span></a>
+    <button class="mobile drawer-close" type="button" data-drawer-close>{% icon "close" %} Close navigation</button>
+    <div class="workspace-label"><span class="workspace-dot"></span> Creator workspace <span>FREE</span></div>
+    <nav>
+      {% for item in navigation %}
+        {% if item.caption %}<p class="nav-caption">{{ item.caption }}</p>{% endif %}
+        <a href="/{{ item.path }}"{% if current_path == "/"|add:item.path %} class="active" aria-current="page"{% endif %}>{% icon item.icon 19 %}<span>{{ item.label }}</span>{% if item.badge %}<small class="nav-new">{{ item.badge }}</small>{% endif %}</a>
+      {% endfor %}
+    </nav>
+    <div class="upgrade"><span class="upgrade-spark">{% icon "spark" 24 %}</span><h3>A team in your corner.</h3><p>A fresh perspective for every part of your music career.</p><a href="/assistants">Meet your AI specialists {% icon "arrow" 15 %}</a></div>
+    <a class="settings-link{% if current_path == '/settings' %} active{% endif %}" href="/settings"{% if current_path == '/settings' %} aria-current="page"{% endif %}>{% icon "settings" 18 %} Settings &amp; profile</a>
+    <div class="sidebar-signature">FOR THE PEOPLE BEHIND THE MUSIC.</div>
+  </aside>
+  <button class="scrim" aria-label="Close navigation" type="button" data-scrim hidden></button>
+  <div class="workspace-main">
+    <header class="topbar">
+      <div class="topbar-location">
+        <button class="mobile menu-toggle" type="button" aria-label="Open navigation" aria-controls="workspace-navigation" aria-expanded="false" data-menu-toggle>{% icon "menu" %}</button>
+        <span>Workspace</span><span class="breadcrumb-slash">/</span><strong>{{ current_page }}</strong>
+      </div>
+      <div class="topbar-tools">
+        <button class="workspace-search" type="button" aria-label="Search workspace pages" data-search-open>{% icon "search" 17 %}<span>Find your next move</span></button>
+        <a href="/settings" class="user"><span class="avatar small">{% if profile.photo %}<img src="{{ profile.photo }}" alt=""/>{% else %}{{ profile.name|initials }}{% endif %}</span><span>{{ profile.name|default:"Your profile" }}<small>{{ profile.role|default:"Creator" }}</small></span></a>
+      </div>
+    </header>
+    <div class="workspace-notice">
+      <span><i></i> {% if request.user.is_authenticated %}{{ sync_status|default:"Account workspace" }}{% else %}Local workspace{% endif %}</span>
+      <details><summary>About your workspace {% icon "info" 13 %}</summary><p>{% if request.user.is_authenticated %}Changes save to your account on this server.{% else %}Changes save in this browser. Sign up to save to an account.{% endif %} AI requests share the context you choose to send.</p></details>
+    </div>
+    <main id="main" tabindex="-1">
+      {% block content %}{% endblock %}
+    </main>
+    <footer class="workspace-footer"><span>SoundBridge <i>·</i> Your sound. Your people. Your business.</span><a href="/assistants">Create your next chapter {% icon "up" 13 %}</a></footer>
+  </div>
+  <dialog class="search-dialog" aria-label="Search workspace pages" data-search-dialog>
+    <div class="search-dialog-heading">{% icon "search" %}<label class="sr-only" for="workspace-search">Search workspace pages</label><input id="workspace-search" placeholder="Where would you like to go?" data-search-input/><button type="button" aria-label="Close search" data-search-close>{% icon "close" %}</button></div>
+    <p>EXPLORE YOUR WORKSPACE</p>
+    {% for item in navigation %}<a href="/{{ item.path }}" data-search-item data-label="{{ item.label|lower }}"><span>{{ item.label }}</span>{% icon "arrow" 17 %}</a>{% endfor %}
+    <p class="search-empty" data-search-empty hidden>No pages found. Try &ldquo;AI&rdquo;, &ldquo;release&rdquo;, or &ldquo;discover&rdquo;.</p>
+  </dialog>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{% static 'js/shell.js' %}" defer></script>{% block page_scripts %}{% endblock %}{% endblock %}

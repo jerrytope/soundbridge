@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Release Setup | SoundBridge</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="release-setup.css">
+</head>
+
+<body>
+
+  <div class="background-orb orb-one"></div>
+  <div class="background-orb orb-two"></div>
+
+  <header class="setup-header">
+
+    <a href="index.html" class="logo">
+      Sound<span>Bridge</span>
+    </a>
+
+    <div class="progress">
+      <p>Release setup</p>
+
+      <div class="progress-track">
+        <div class="progress-bar"></div>
+      </div>
+    </div>
+
+    <button class="exit-button" id="exitButton">
+      Save & exit
+    </button>
+
+  </header>
+
+  <main class="setup-container">
+
+    <section class="intro">
+
+      <p class="eyebrow">AI RELEASE PLANNER</p>
+
+      <h1>
+        Turn your next release
+        <span>into a real campaign.</span>
+      </h1>
+
+      <p>
+        Tell us where you are in the release process. SoundBridge
+        will prepare a personalised timeline, checklist and strategy.
+      </p>
+
+    </section>
+
+    <form id="releaseForm">
+
+      <section class="form-section">
+
+        <div class="section-heading">
+          <div>
+            <span class="section-number">01</span>
+            <h2>What are you releasing?</h2>
+          </div>
+
+          <span class="section-note">Choose one</span>
+        </div>
+
+        <div class="release-types">
+
+          <label class="release-card">
+            <input
+              type="radio"
+              name="releaseType"
+              value="Single"
+            >
+
+            <span class="release-icon">♪</span>
+
+            <span class="release-information">
+              <strong>Single</strong>
+              <small>One main song</small>
+            </span>
+
+            <span class="radio-circle"></span>
+          </label>
+
+          <label class="release-card">
+            <input
+              type="radio"
+              name="releaseType"
+              value="EP"
+            >
+
+            <span class="release-icon">◫</span>
+
+            <span class="release-information">
+              <strong>EP</strong>
+              <small>A short collection</small>
+            </span>
+
+            <span class="radio-circle"></span>
+          </label>
+
+          <label class="release-card">
+            <input
+              type="radio"
+              name="releaseType"
+              value="Album"
+            >
+
+            <span class="release-icon">◎</span>
+
+            <span class="release-information">
+              <strong>Album</strong>
+              <small>A complete project</small>
+            </span>
+
+            <span class="radio-circle"></span>
+          </label>
+
+          <label class="release-card">
+            <input
+              type="radio"
+              name="releaseType"
+              value="Music video"
+            >
+
+            <span class="release-icon">▶</span>
+
+            <span class="release-information">
+              <strong>Music video</strong>
+              <small>A visual release</small>
+            </span>
+
+            <span class="radio-circle"></span>
+          </label>
+
+        </div>
+
+        <p class="error-message" id="releaseTypeError"></p>
+
+      </section>
+
+      <section class="form-section">
+
+        <div class="section-heading">
+          <div>
+            <span class="section-number">02</span>
+            <h2>Tell us about the release</h2>
+          </div>
+        </div>
+
+        <div class="input-grid">
+
+          <div class="input-group">
+            <label for="releaseTitle">Release title</label>
+
+            <input
+              type="text"
+              id="releaseTitle"
+              placeholder="For example: Midnight Drive"
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="releaseDate">Target release date</label>
+
+            <input
+              type="date"
+              id="releaseDate"
+            >
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="form-section">
+
+        <div class="section-heading">
+          <div>
+            <span class="section-number">03</span>
+            <h2>What stage are you currently at?</h2>
+          </div>
+
+          <span class="section-note">Choose one</span>
+        </div>
+
+        <div class="stage-list">
+
+          <label class="stage-option">
+            <input
+              type="radio"
+              name="releaseStage"
+              value="Idea stage"
+            >
+
+            <span class="stage-line"></span>
+
+            <span>
+              <strong>Idea stage</strong>
+              <small>I am still developing the song or concept</small>
+            </span>
+          </label>
+
+          <label class="stage-option">
+            <input
+              type="radio"
+              name="releaseStage"
+              value="Recording"
+            >
+
+            <span class="stage-line"></span>
+
+            <span>
+              <strong>Recording</strong>
+              <small>The music is currently being recorded</small>
+            </span>
+          </label>
+
+          <label class="stage-option">
+            <input
+              type="radio"
+              name="releaseStage"
+              value="Mixing and mastering"
+            >
+
+            <span class="stage-line"></span>
+
+            <span>
+              <strong>Mixing and mastering</strong>
+              <small>The recording is finished and being polished</small>
+            </span>
+          </label>
+
+          <label class="stage-option">
+            <input
+              type="radio"
+              name="releaseStage"
+              value="Ready for distribution"
+            >
+
+            <span class="stage-line"></span>
+
+            <span>
+              <strong>Ready for distribution</strong>
+              <small>The final audio and artwork are ready</small>
+            </span>
+          </label>
+
+          <label class="stage-option">
+            <input
+              type="radio"
+              name="releaseStage"
+              value="Already released"
+            >
+
+            <span class="stage-line"></span>
+
+            <span>
+              <strong>Already released</strong>
+              <small>I need help promoting and tracking it</small>
+            </span>
+          </label>
+
+        </div>
+
+      </section>
+
+      <section class="form-section">
+
+        <div class="section-heading">
+          <div>
+            <span class="section-number">04</span>
+            <h2>Where do you need support?</h2>
+          </div>
+
+          <span class="section-note">Select multiple</span>
+        </div>
+
+        <div class="support-grid">
+
+          <button
+            type="button"
+            class="support-option"
+            data-support="Release strategy"
+          >
+            <span>01</span>
+            <strong>Release strategy</strong>
+            <small>Build the complete campaign plan</small>
+            <b>✓</b>
+          </button>
+
+          <button
+            type="button"
+            class="support-option"
+            data-support="Content planning"
+          >
+            <span>02</span>
+            <strong>Content planning</strong>
+            <small>Plan social content around the release</small>
+            <b>✓</b>
+          </button>
+
+          <button
+            type="button"
+            class="support-option"
+            data-support="Distribution"
+          >
+            <span>03</span>
+            <strong>Distribution</strong>
+            <small>Prepare the music for streaming platforms</small>
+            <b>✓</b>
+          </button>
+
+          <button
+            type="button"
+            class="support-option"
+            data-support="Playlist pitching"
+          >
+            <span>04</span>
+            <strong>Playlist pitching</strong>
+            <small>Prepare a stronger playlist submission</small>
+            <b>✓</b>
+          </button>
+
+          <button
+            type="button"
+            class="support-option"
+            data-support="Marketing"
+          >
+            <span>05</span>
+            <strong>Marketing</strong>
+            <small>Promote the release to the right audience</small>
+            <b>✓</b>
+          </button>
+
+          <button
+            type="button"
+            class="support-option"
+            data-support="Royalty setup"
+          >
+            <span>06</span>
+            <strong>Royalty setup</strong>
+            <small>Prepare ownership, splits and registrations</small>
+            <b>✓</b>
+          </button>
+
+        </div>
+
+      </section>
+
+      <div class="form-actions">
+
+        <button
+          type="button"
+          class="back-button"
+          id="backButton"
+        >
+          ← Back
+        </button>
+
+        <button type="submit" class="continue-button">
+          Create my release plan
+          <span>→</span>
+        </button>
+
+      </div>
+
+    </form>
+
+  </main>
+
+  <script src="release-setup.js"></script>
+
+</body>
+</html>

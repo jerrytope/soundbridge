@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Dashboard | SoundBridge</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="portal.css">
+</head>
+
+<body>
+
+  <div class="dashboard-layout">
+
+    <aside class="sidebar" id="sidebar">
+
+      <div class="sidebar-top">
+
+        <a href="index.html" class="logo">
+          Sound<span>Bridge</span>
+        </a>
+
+        <button class="close-sidebar" id="closeSidebar">×</button>
+
+      </div>
+
+      <nav class="sidebar-navigation">
+
+        <p class="navigation-label">Workspace</p>
+
+        <a href="#" class="navigation-link active">
+          <span class="navigation-icon">⌂</span>
+          Overview
+        </a>
+
+        <a href="discover.html" class="navigation-link">
+       <span class="navigation-icon">⌕</span>
+        Discover
+       </a>
+
+        <a href="#" class="navigation-link">
+          <span class="navigation-icon">♬</span>
+          Collaborations
+        </a>
+
+        <a href="#" class="navigation-link">
+          <span class="navigation-icon">◇</span>
+          Opportunities
+        </a>
+
+        <p class="navigation-label second-label">Creator tools</p>
+
+        <a href="#" class="navigation-link">
+          <span class="navigation-icon">✦</span>
+          AI Assistants
+          <span class="pro-label">PRO</span>
+        </a>
+
+        <a href="#" class="navigation-link">
+          <span class="navigation-icon">₦</span>
+          Royalties
+        </a>
+
+        <a href="#" class="navigation-link">
+          <span class="navigation-icon">✓</span>
+          Release Planner
+        </a>
+
+        <a href="#" class="navigation-link">
+          <span class="navigation-icon">◉</span>
+          Analytics
+        </a>
+
+      </nav>
+
+      <div class="sidebar-bottom">
+
+        <div class="upgrade-card">
+          <div class="upgrade-icon">✦</div>
+
+          <strong>Unlock SoundBridge Pro</strong>
+
+          <p>
+            Get unlimited AI guidance and advanced creator tools.
+          </p>
+
+          <button id="sidebarUpgradeButton">
+            Upgrade to Pro
+          </button>
+        </div>
+
+        <a href="#" class="navigation-link">
+          <span class="navigation-icon">⚙</span>
+          Settings
+        </a>
+
+      </div>
+
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <main class="main-content">
+
+      <header class="topbar">
+
+        <div class="topbar-left">
+          <button class="menu-button" id="menuButton">☰</button>
+
+          <div>
+            <p class="date-text" id="currentDate"></p>
+            <h1>Creator dashboard</h1>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+
+          <button class="notification-button" aria-label="Notifications">
+            ♢
+            <span class="notification-dot"></span>
+          </button>
+
+          <div class="profile-summary">
+            <div class="profile-avatar" id="profileAvatar">SB</div>
+
+            <div class="profile-information">
+              <strong id="headerName">Creator</strong>
+              <span id="headerRole">SoundBridge member</span>
+            </div>
+          </div>
+
+        </div>
+
+      </header>
+
+      <section class="welcome-section">
+
+        <div class="welcome-copy">
+          <p class="eyebrow">YOUR CREATIVE COMMAND CENTRE</p>
+
+          <h2>
+            Welcome back,
+            <span id="welcomeName">Creator</span>.
+          </h2>
+
+          <p id="welcomeMessage">
+            Your SoundBridge workspace is ready.
+          </p>
+        </div>
+
+        <div class="membership-badge">
+          <span class="status-dot"></span>
+
+          <div>
+            <small>Current membership</small>
+            <strong>Free plan</strong>
+          </div>
+        </div>
+
+      </section>
+
+      <section class="goal-strip">
+
+        <div>
+          <p>Your active goals</p>
+          <div class="goal-list" id="goalList"></div>
+        </div>
+
+        <a href="goals.html">Edit goals</a>
+
+      </section>
+
+      <section class="stat-grid">
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <span class="stat-icon purple-icon">◎</span>
+            <span class="stat-change">Profile</span>
+          </div>
+
+          <strong id="profileCompletion">72%</strong>
+          <p>Profile completion</p>
+
+          <div class="mini-progress">
+            <span id="profileProgressBar"></span>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <span class="stat-icon pink-icon">♬</span>
+            <span class="stat-change">Network</span>
+          </div>
+
+          <strong>0</strong>
+          <p>New connections</p>
+
+          <small>Start discovering creators</small>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <span class="stat-icon orange-icon">◇</span>
+            <span class="stat-change">Career</span>
+          </div>
+
+          <strong>6</strong>
+          <p>Recommended opportunities</p>
+
+          <small>Based on your profile</small>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <span class="stat-icon green-icon">↗</span>
+            <span class="stat-change">This month</span>
+          </div>
+
+          <strong>—</strong>
+          <p>Estimated royalties</p>
+
+          <small>Connect a data source</small>
+        </article>
+
+      </section>
+
+      <div class="dashboard-grid">
+
+        <div class="primary-column">
+
+          <section class="dashboard-section">
+
+            <div class="section-header">
+              <div>
+                <p class="section-eyebrow">PERSONALISED FOR YOU</p>
+                <h3>Your next moves</h3>
+              </div>
+            </div>
+
+            <div class="action-list" id="actionList"></div>
+
+          </section>
+
+          <section
+            class="dashboard-section royalty-section"
+            id="royaltySection"
+          >
+
+            <div class="section-header">
+
+              <div>
+                <p class="section-eyebrow">MONEY & RIGHTS</p>
+                <h3>Royalty intelligence</h3>
+              </div>
+
+              <a href="royalty-calculator.html" class="primary-button">
+                Calculate royalties
+               </a>
+            </div>
+
+            <div class="royalty-panel">
+
+              <div class="royalty-copy">
+                <span class="royalty-label">
+                  AI ROYALTY ASSISTANT
+                </span>
+
+                <h4>Know what your music could be earning.</h4>
+
+                <p>
+                  Estimate streaming income, learn about royalty
+                  types and organise statements from different sources.
+                </p>
+
+                <div class="royalty-buttons">
+                  <button
+                    class="primary-button"
+                    data-demo="Royalty calculator"
+                  >
+                    Calculate royalties
+                  </button>
+
+                  <a
+                   href="royalty-upload.html"
+                   class="secondary-button"
+                      >
+                    Upload statement
+                          </a>
+                </div>
+              </div>
+
+              <div class="earnings-visual">
+
+                <div class="visual-header">
+                  <span>Estimated earnings</span>
+                  <span>Preview</span>
+                </div>
+
+                <div class="earnings-number">
+                  <small>₦</small>
+                  <strong>0.00</strong>
+                </div>
+
+                <div class="chart">
+                  <span style="height: 28%"></span>
+                  <span style="height: 42%"></span>
+                  <span style="height: 35%"></span>
+                  <span style="height: 62%"></span>
+                  <span style="height: 53%"></span>
+                  <span style="height: 78%"></span>
+                  <span style="height: 88%"></span>
+                </div>
+
+                <p>Connect platforms to see real information.</p>
+
+              </div>
+
+            </div>
+
+          </section>
+
+          <section
+            class="dashboard-section release-section"
+            id="releaseSection"
+          >
+
+            <div class="section-header">
+
+              <div>
+                <p class="section-eyebrow">CURRENT PROJECT</p>
+                <h3>Your release plan</h3>
+              </div>
+
+              <button class="text-button" data-demo="Release planner">
+                View plan →
+              </button>
+
+            </div>
+
+            <div class="release-panel">
+
+              <div class="release-artwork">♪</div>
+
+              <div class="release-details">
+
+                <span class="release-status" id="releaseStatus">
+                  PLANNING
+                </span>
+
+                <h4 id="dashboardReleaseTitle">
+                  Your next release
+                </h4>
+
+                <p id="dashboardReleaseInformation">
+                  Complete your release details to generate your plan.
+                </p>
+
+                <div class="release-progress">
+                  <div>
+                    <span>Campaign progress</span>
+                    <strong>20%</strong>
+                  </div>
+
+                  <div class="progress-track-large">
+                    <span></span>
+                  </div>
+                </div>
+
+              </div>
+
+              <button
+                class="round-button"
+                data-demo="Release planner"
+                aria-label="Open release planner"
+              >
+                →
+              </button>
+
+            </div>
+
+          </section>
+
+        </div>
+
+        <aside class="secondary-column">
+
+          <section class="side-section">
+
+            <div class="section-header">
+              <div>
+                <p class="section-eyebrow">AI TEAM</p>
+                <h3>Meet your assistants</h3>
+              </div>
+
+              <span class="pro-label large">PRO</span>
+            </div>
+
+            <div class="assistant-list">
+
+              <button
+                class="assistant-card"
+                data-assistant="AI A&R"
+              >
+                <span class="assistant-avatar ar-agent">AR</span>
+
+                <span class="assistant-copy">
+                  <strong>AI A&amp;R</strong>
+                  <small>Music and career feedback</small>
+                </span>
+
+                <span class="locked-icon">⌾</span>
+              </button>
+
+              <button
+                class="assistant-card"
+                data-assistant="Artist Manager"
+              >
+                <span class="assistant-avatar manager-agent">AM</span>
+
+                <span class="assistant-copy">
+                  <strong>Artist Manager</strong>
+                  <small>Career priorities and guidance</small>
+                </span>
+
+                <span class="locked-icon">⌾</span>
+              </button>
+
+              <button
+                class="assistant-card"
+                data-assistant="Legal Assistant"
+              >
+                <span class="assistant-avatar legal-agent">LA</span>
+
+                <span class="assistant-copy">
+                  <strong>Legal Assistant</strong>
+                  <small>Contracts, rights and terminology</small>
+                </span>
+
+                <span class="locked-icon">⌾</span>
+              </button>
+
+              <button
+                class="assistant-card"
+                data-assistant="Content Strategist"
+              >
+                <span class="assistant-avatar content-agent">CS</span>
+
+                <span class="assistant-copy">
+                  <strong>Content Strategist</strong>
+                  <small>Campaign and content ideas</small>
+                </span>
+
+                <span class="locked-icon">⌾</span>
+              </button>
+
+              <button
+                class="assistant-card"
+                data-assistant="Collaboration Matcher"
+              >
+                <span class="assistant-avatar match-agent">CM</span>
+
+                <span class="assistant-copy">
+                  <strong>Collaboration Matcher</strong>
+                  <small>Find suitable creative partners</small>
+                </span>
+
+                <span class="locked-icon">⌾</span>
+              </button>
+
+            </div>
+
+            <button class="upgrade-button" id="upgradeButton">
+              Unlock your AI team
+              <span>→</span>
+            </button>
+
+          </section>
+
+          <section class="side-section profile-section">
+
+            <div class="profile-ring">
+              <span id="profileRingValue">72%</span>
+            </div>
+
+            <div>
+              <h3>Complete your profile</h3>
+
+              <p>
+                Strong profiles receive better matches and recommendations.
+              </p>
+
+              <a href="profile-setup.html">Continue setup →</a>
+            </div>
+
+          </section>
+
+        </aside>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay">
+
+    <div class="modal">
+
+      <button class="modal-close" id="modalClose">×</button>
+
+      <div class="modal-icon">✦</div>
+
+      <p class="modal-eyebrow">SOUNDBRIDGE PRO</p>
+
+      <h2 id="modalTitle">Unlock your AI creative team</h2>
+
+      <p id="modalMessage">
+        Upgrade to access advanced AI guidance, royalty intelligence
+        and unlimited release planning.
+      </p>
+
+      <ul>
+        <li>Unlimited AI assistant conversations</li>
+        <li>Advanced royalty tracking and calculations</li>
+        <li>Complete release planning tools</li>
+        <li>Priority collaboration matching</li>
+      </ul>
+
+      <button class="modal-upgrade-button">
+        View Pro membership
+      </button>
+
+      <button class="modal-later-button" id="modalLater">
+        Maybe later
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="portal.js"></script>
+
+</body>
+</html>

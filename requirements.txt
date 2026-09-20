@@ -1,0 +1,2 @@
+# Reproducible Python 3.12+ runtime, including workers and production server.
+-r requirements.lock

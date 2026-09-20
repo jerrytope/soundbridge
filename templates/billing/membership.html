@@ -1,0 +1,9 @@
+{% extends 'shell.html' %}{% block content %}<h1>Membership</h1>
+{% if plan %}<p>Your plan: {{ plan.name }}</p><dl>{% for capability,value in plan.limits.items %}<dt>{{ capability }}</dt><dd>{{ value }}</dd>{% endfor %}</dl>
+{% elif unlimited %}<p>This workspace has no approved commercial plans, so plan limits are not being enforced. Approve plans before opening registration publicly.</p>
+{% else %}<p>Commercial plans and prices have not been approved for this deployment.</p>{% endif %}
+{% if subscription %}<section class="panel"><h2>Your subscription</h2><p>{{ subscription.plan.name }} &middot; {{ subscription.get_state_display }} &middot; access until {{ subscription.access_until }}{% if subscription.cancel_at_period_end %} &middot; cancels at period end{% endif %}</p><p>Last verified with the payment provider {{ subscription.verified_at }}.</p>{% if not subscription.cancel_at_period_end %}<form method="post" action="/membership/cancel">{% csrf_token %}<button>Cancel subscription</button></form><p>Cancelling keeps your plans, statements and conversations; the account returns to the free plan when the paid period ends.</p>{% endif %}</section>{% endif %}
+{% for item in plans %}<section class="panel"><h2>{{ item.name }}</h2><p>{{ item.commercial_terms|linebreaksbr }}</p><dl>{% for capability,value in item.limits.items %}<dt>{{ capability }}</dt><dd>{{ value }}</dd>{% endfor %}</dl>
+{% if provider_ready %}{% if not subscription or subscription.plan_id != item.code %}<form method="post" action="/membership/checkout">{% csrf_token %}<input type="hidden" name="plan" value="{{ item.code }}"/><button class="button">Choose {{ item.name }}</button></form>{% endif %}{% endif %}</section>{% endfor %}
+{% if not provider_ready %}<p>Checkout is unavailable until a payment provider and its verified billing integration are configured. No payment will be requested here.</p>{% endif %}
+{% endblock %}

@@ -1,0 +1,2 @@
+{% load ui %}{# Port of the Earnings component in src/main.jsx. #}
+{% if earnings %}<div class="stats">{% for currency, amount in earnings %}<article class="panel"><strong>{{ amount|money:currency }}</strong><p>Imported {{ currency }} earnings</p></article>{% endfor %}</div>{% else %}{% include "partials/empty.html" with title="No statements imported" link_url="/royalty-upload" link_label="Import a CSV statement →" %}{% endif %}

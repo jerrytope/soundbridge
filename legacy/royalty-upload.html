@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Upload Royalty Statement | SoundBridge</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="royalty-upload.css">
+</head>
+
+<body>
+
+  <header class="page-header">
+
+    <a href="portal.html" class="logo">
+      Sound<span>Bridge</span>
+    </a>
+
+    <a href="portal.html" class="back-link">
+      ← Back to dashboard
+    </a>
+
+  </header>
+
+  <main class="page-container">
+
+    <section class="page-introduction">
+
+      <p class="eyebrow">ROYALTY STATEMENT INTELLIGENCE</p>
+
+      <h1>
+        Make sense of your
+        <span>royalty statements.</span>
+      </h1>
+
+      <p>
+        Add a statement from your distributor, label, publisher or
+        royalty organisation. SoundBridge will help organise and
+        explain the information.
+      </p>
+
+    </section>
+
+    <div class="upload-layout">
+
+      <section class="upload-card">
+
+        <div class="card-heading">
+          <span>01</span>
+
+          <div>
+            <h2>Add your statement</h2>
+            <p>CSV, XLSX or PDF files are supported in this preview.</p>
+          </div>
+        </div>
+
+        <div class="drop-zone" id="dropZone">
+
+          <input
+            type="file"
+            id="fileInput"
+            accept=".csv,.xlsx,.xls,.pdf"
+            hidden
+          >
+
+          <div class="upload-icon">↑</div>
+
+          <h3>Drag your royalty statement here</h3>
+
+          <p>or choose a file from your computer</p>
+
+          <button type="button" id="browseButton">
+            Choose statement
+          </button>
+
+          <small>Maximum preview size: 10MB</small>
+
+        </div>
+
+        <div class="file-preview" id="filePreview">
+
+          <div class="file-icon" id="fileTypeIcon">CSV</div>
+
+          <div class="file-information">
+            <strong id="fileName">statement.csv</strong>
+            <span id="fileDetails">0 KB</span>
+          </div>
+
+          <button type="button" id="removeFile">×</button>
+
+        </div>
+
+        <div class="input-group">
+          <label for="statementSource">Statement source</label>
+
+          <select id="statementSource">
+            <option value="">Select the source</option>
+            <option value="Distributor">Music distributor</option>
+            <option value="Record label">Record label</option>
+            <option value="Publisher">Music publisher</option>
+            <option value="PRO or CMO">PRO or collecting society</option>
+            <option value="Streaming platform">Streaming platform</option>
+            <option value="Other">Other source</option>
+          </select>
+        </div>
+
+        <div class="input-grid">
+
+          <div class="input-group">
+            <label for="statementPeriod">
+              Statement period
+            </label>
+
+            <input
+              type="month"
+              id="statementPeriod"
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="statementCurrency">
+              Statement currency
+            </label>
+
+            <select id="statementCurrency">
+              <option value="NGN">NGN — Nigerian naira</option>
+              <option value="USD">USD — US dollar</option>
+              <option value="GBP">GBP — British pound</option>
+              <option value="EUR">EUR — Euro</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="privacy-note">
+          <span>⌾</span>
+
+          <p>
+            This frontend demonstration does not send the selected
+            file to a server. Only basic file details are shown.
+          </p>
+        </div>
+
+        <p class="error-message" id="errorMessage"></p>
+
+        <button class="analyse-button" id="analyseButton" disabled>
+          Analyse statement
+          <span>→</span>
+        </button>
+
+      </section>
+
+      <aside class="analysis-panel">
+
+        <div class="analysis-empty" id="analysisEmpty">
+
+          <div class="analysis-icon">✦</div>
+
+          <h2>Your analysis will appear here</h2>
+
+          <p>
+            Select a royalty file and SoundBridge will prepare an
+            easy-to-understand statement summary.
+          </p>
+
+          <div class="analysis-steps">
+
+            <span>
+              <b>01</b>
+              Identify earnings
+            </span>
+
+            <span>
+              <b>02</b>
+              Group income sources
+            </span>
+
+            <span>
+              <b>03</b>
+              Explain royalty terms
+            </span>
+
+            <span>
+              <b>04</b>
+              Flag possible issues
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="analysis-results" id="analysisResults">
+
+          <div class="success-heading">
+            <span>✓</span>
+
+            <div>
+              <small>STATEMENT READY</small>
+              <h2>Frontend analysis preview</h2>
+            </div>
+          </div>
+
+          <div class="summary-card">
+            <span>Selected statement</span>
+            <strong id="resultFileName">—</strong>
+          </div>
+
+          <div class="result-list">
+
+            <div>
+              <span>File format</span>
+              <strong id="resultFileType">—</strong>
+            </div>
+
+            <div>
+              <span>Statement source</span>
+              <strong id="resultSource">—</strong>
+            </div>
+
+            <div>
+              <span>Reporting period</span>
+              <strong id="resultPeriod">Not provided</strong>
+            </div>
+
+            <div>
+              <span>Currency</span>
+              <strong id="resultCurrency">NGN</strong>
+            </div>
+
+          </div>
+
+          <div class="ai-preview">
+            <span class="pro-tag">AI PREVIEW</span>
+
+            <h3>What the complete system will explain</h3>
+
+            <ul>
+              <li>Total reported income</li>
+              <li>Streams and income by platform</li>
+              <li>Top-performing countries and songs</li>
+              <li>Deductions, fees and ownership splits</li>
+              <li>Possible missing or unusual payments</li>
+            </ul>
+          </div>
+
+          <button class="save-statement-button" id="saveStatement">
+            Save statement record
+          </button>
+
+        </div>
+
+      </aside>
+
+    </div>
+
+  </main>
+
+  <div class="toast" id="toast">
+    Statement record saved.
+  </div>
+
+  <script src="royalty-upload.js"></script>
+
+</body>
+</html>

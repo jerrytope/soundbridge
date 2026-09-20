@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Choose Your Goals — SoundBridge</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="goals.css">
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="onboarding-header">
+    <a href="index.html" class="logo">
+      <span class="logo-icon">S</span>
+      <span>SoundBridge</span>
+    </a>
+
+    <button class="exit-button" id="exitButton">
+      Save and exit
+    </button>
+  </header>
+
+  <!-- Progress -->
+  <section class="progress-section">
+    <div class="progress-information">
+      <span>Step 2 of 5</span>
+      <span>40% complete</span>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-value"></div>
+    </div>
+  </section>
+
+  <main class="goals-container">
+    <!-- Heading -->
+    <section class="introduction">
+      <p class="eyebrow">Personalise your experience</p>
+
+      <h1>
+        What are you trying
+        <span>to achieve?</span>
+      </h1>
+
+      <p>
+        Choose up to three goals. SoundBridge will use your choices to
+        personalise opportunities, recommendations and AI assistance.
+      </p>
+    </section>
+
+    <!-- Goal counter -->
+    <section class="selection-counter">
+      <span>Selected goals</span>
+      <strong>
+        <span id="selectedCount">0</span>/3
+      </strong>
+    </section>
+
+    <!-- Goal cards -->
+    <section class="goal-grid">
+      <button class="goal-card" data-goal="Find collaborators">
+        <span class="goal-icon pink">◎</span>
+
+        <span class="goal-content">
+          <strong>Find collaborators</strong>
+          <small>
+            Connect with artists, producers, writers and engineers.
+          </small>
+        </span>
+
+        <span class="selection-circle"></span>
+      </button>
+
+      <button class="goal-card" data-goal="Discover opportunities">
+        <span class="goal-icon lime">↗</span>
+
+        <span class="goal-content">
+          <strong>Discover opportunities</strong>
+          <small>
+            Find jobs, auditions, briefs, performances and projects.
+          </small>
+        </span>
+
+        <span class="selection-circle"></span>
+      </button>
+
+      <button class="goal-card" data-goal="Plan a release">
+        <span class="goal-icon purple">♪</span>
+
+        <span class="goal-content">
+          <strong>Plan a release</strong>
+          <small>
+            Organise your timeline, assets, promotion and contributors.
+          </small>
+        </span>
+
+        <span class="selection-circle"></span>
+      </button>
+
+      <button class="goal-card" data-goal="Grow my audience">
+        <span class="goal-icon cyan">◌</span>
+
+        <span class="goal-content">
+          <strong>Grow my audience</strong>
+          <small>
+            Develop your content strategy and reach more listeners.
+          </small>
+        </span>
+
+        <span class="selection-circle"></span>
+      </button>
+
+      <button class="goal-card" data-goal="Understand royalties">
+        <span class="goal-icon lime">₦</span>
+
+        <span class="goal-content">
+          <strong>Understand royalties</strong>
+          <small>
+            Learn how different music rights and payments work.
+          </small>
+        </span>
+
+        <span class="selection-circle"></span>
+      </button>
+
+      <button class="goal-card" data-goal="Track music income">
+        <span class="goal-icon orange">$</span>
+
+        <span class="goal-content">
+          <strong>Track music income</strong>
+          <small>
+            Organise statements and compare your estimated earnings.
+          </small>
+        </span>
+
+        <span class="selection-circle"></span>
+      </button>
+
+      <button class="goal-card" data-goal="Improve my profile">
+        <span class="goal-icon pink">★</span>
+
+        <span class="goal-content">
+          <strong>Improve my profile</strong>
+          <small>
+            Present your credits, experience and portfolio professionally.
+          </small>
+        </span>
+
+        <span class="selection-circle"></span>
+      </button>
+
+      <button class="goal-card" data-goal="Get AI career support">
+        <span class="goal-icon purple">✦</span>
+
+        <span class="goal-content">
+          <strong>Get AI career support</strong>
+          <small>
+            Receive personalised plans and recommendations.
+          </small>
+        </span>
+
+        <span class="selection-circle"></span>
+      </button>
+    </section>
+
+    <p class="goal-error" id="goalError"></p>
+
+    <!-- Bottom navigation -->
+    <section class="bottom-navigation">
+      <a href="onboarding.html" class="back-button">
+        ← Back
+      </a>
+
+      <p class="role-summary">
+        Continuing as
+        <strong id="roleName">music professional</strong>
+      </p>
+
+      <button
+        class="continue-button"
+        id="continueButton"
+        disabled
+      >
+        Continue
+        <span>→</span>
+      </button>
+    </section>
+  </main>
+
+  <script src="goals.js"></script>
+</body>
+</html>

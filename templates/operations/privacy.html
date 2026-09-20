@@ -1,0 +1,6 @@
+{% extends 'shell.html' %}{% block content %}<h1>Privacy and data</h1>
+<section class="panel"><form method="post">{% csrf_token %}{{ form.as_p }}<button class="button">Submit request</button></form>
+{% if not policy %}<p>Exports and deletions are carried out once the workspace operator has approved a retention policy. Your request is recorded until then.</p>{% endif %}</section>
+<h2>Requests</h2>{% for item in requests %}<p>{{ item.get_kind_display }} &middot; {{ item.get_state_display }} &middot; {{ item.created_at }}</p>{% empty %}<p>No requests.</p>{% endfor %}
+<h2>Your exports</h2>{% for export in exports %}<p>{% if export.expires_at and export.expires_at <= now %}{{ export.filename }} &middot; expired{% else %}<a href="/privacy/downloads/{{ export.id }}">{{ export.filename }}</a> &middot; {{ export.byte_size }} bytes &middot; available until {{ export.expires_at }}{% endif %}</p>{% empty %}<p>No export files yet.</p>{% endfor %}
+<h2>Consent history</h2>{% for consent in consents %}<p>{{ consent.purpose }} &middot; {{ consent.version }} &middot; {% if consent.granted %}Granted{% else %}Revoked{% endif %} &middot; {{ consent.created_at }}</p>{% endfor %}{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "shell.html" %}{% load ui %}
+{# Port of the Calculator component in src/main.jsx. The estimate is computed
+   on the server with Decimal arithmetic; the form and result panel are
+   unchanged. #}
+{% block content %}
+{% include "partials/heading.html" with title="Explore your earning potential." description="Scenario calculator. Enter a rate from your own statement or agreement; this is not a payout forecast." %}
+<div class="two-col">
+<form class="panel" method="post" action="/royalty-calculator">{% csrf_token %}
+  <label class="field"><span>Platform or source</span><input name="platform" required value="{{ result.platform|default:'' }}"/></label>
+  <label class="field"><span>Streams</span><input type="number" min="0" step="1" name="streams" required value="{{ result.streams|default:'' }}"/></label>
+  <label class="field"><span>Rate per stream (in chosen currency)</span><input type="number" min="0" step="any" name="rate" required value="{{ result.rate|default:'' }}"/></label>
+  <label class="field"><span>Ownership (%)</span><input type="number" min="0" max="100" step="any" name="share" value="{{ result.share|default:'100' }}" required/></label>
+  <label class="field"><span>Currency</span><select name="currency">{% for code in currencies %}<option{% if result.currency == code %} selected{% endif %}>{{ code }}</option>{% endfor %}</select></label>
+  {% if error %}<p role="alert">{{ error }}</p>{% endif %}
+  <button class="button">Calculate estimate &rarr;</button>
+</form>
+<section class="panel accent-panel"><p class="eyebrow">YOUR SCENARIO</p>
+{% if result %}<h2 class="big-number">{{ result.amount|money:result.currency }}</h2><p>{{ result.streams|thousands }} streams &times; {{ result.rate|plain }} &times; {{ result.share|plain }}%</p>
+<form method="post" action="/royalty-calculator">{% csrf_token %}<input type="hidden" name="action" value="save"/><input type="hidden" name="platform" value="{{ result.platform }}"/><input type="hidden" name="streams" value="{{ result.streams }}"/><input type="hidden" name="rate" value="{{ result.rate }}"/><input type="hidden" name="share" value="{{ result.share }}"/><input type="hidden" name="currency" value="{{ result.currency }}"/><button class="button">Save estimate</button></form>
+{% else %}{% include "partials/empty.html" with title="Your estimate will appear here" %}{% endif %}
+</section>
+</div>
+{% endblock %}

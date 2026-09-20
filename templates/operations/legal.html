@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block root %}<main class="auth"><a class="brand" href="/">SoundBridge</a><article class="panel"><h1>{{ document }}</h1>{% if decision %}{{ decision.decision|linebreaks }}{% else %}<p>Approved {{ document|lower }} text has not yet been published. This deployment is not ready for public registration.</p>{% endif %}</article></main>{% endblock %}

@@ -1,0 +1,15 @@
+.git
+.env*
+!.env.example
+.data
+.venv
+node_modules
+__pycache__
+**/__pycache__
+*.zip
+dist
+src
+server
+legacy
+api
+plans/*.pdf

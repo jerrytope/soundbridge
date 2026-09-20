@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Choose Your Role — SoundBridge</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="onboarding.css">
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="onboarding-header">
+    <a href="index.html" class="logo">
+      <span class="logo-icon">S</span>
+      <span>SoundBridge</span>
+    </a>
+
+    <button class="exit-button" id="exitButton">
+      Save and exit
+    </button>
+  </header>
+
+  <!-- Progress section -->
+  <section class="progress-section">
+    <div class="progress-information">
+      <span>Step 1 of 5</span>
+      <span>20% complete</span>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-value"></div>
+    </div>
+  </section>
+
+  <!-- Main onboarding content -->
+  <main class="onboarding-container">
+    <section class="introduction">
+      <p class="eyebrow">Build your professional identity</p>
+
+      <h1>
+        What do you do
+        <span>in music?</span>
+      </h1>
+
+      <p>
+        Choose the role that best represents you. This helps
+        SoundBridge recommend the right people, opportunities and AI
+        assistants.
+      </p>
+    </section>
+
+    <!-- Role choices -->
+    <section class="role-grid" id="roleGrid">
+      <button class="role-card" data-role="Artist">
+        <span class="role-icon pink">♪</span>
+
+        <span class="role-content">
+          <strong>Artist</strong>
+          <small>
+            Perform, record and release music under your name.
+          </small>
+        </span>
+
+        <span class="selection-circle"></span>
+      </button>
+
+      <button class="role-card" data-role="Producer">
+        <span class="role-icon lime">◉</span>
+
+        <span class="role-content">
+          <strong>Producer</strong>
+          <small>
+            Create instrumentals and shape the sound of recordings.
+          </small>
+        </span>
+
+        <span class="selection-circle"></span>
+      </button>
+
+      <button class="role-card" data-role="Songwriter">
+        <span class="role-icon purple">✦</span>
+
+        <span class="role-content">
+          <strong>Songwriter</strong>
+          <small>
+            Write lyrics, melodies and musical compositions.
+          </small>
+        </span>
+
+        <span class="selection-circle"></span>
+      </button>
+
+      <button class="role-card" data-role="Audio Engineer">
+        <span class="role-icon cyan">≋</span>
+
+        <span class="role-content">
+          <strong>Audio Engineer</strong>
+          <small>
+            Record, mix, master and improve the quality of music.
+          </small>
+        </span>
+
+        <span class="selection-circle"></span>
+      </button>
+
+      <button class="role-card" data-role="Manager">
+        <span class="role-icon orange">◎</span>
+
+        <span class="role-content">
+          <strong>Manager</strong>
+          <small>
+            Guide artists, manage projects and develop careers.
+          </small>
+        </span>
+
+        <span class="selection-circle"></span>
+      </button>
+
+      <button class="role-card" data-role="A&R Professional">
+        <span class="role-icon pink">⌁</span>
+
+        <span class="role-content">
+          <strong>A&amp;R Professional</strong>
+          <small>
+            Discover talent and help develop music projects.
+          </small>
+        </span>
+
+        <span class="selection-circle"></span>
+      </button>
+
+      <button class="role-card" data-role="Music Lawyer">
+        <span class="role-icon purple">§</span>
+
+        <span class="role-content">
+          <strong>Music Lawyer</strong>
+          <small>
+            Support creators with agreements, rights and legal matters.
+          </small>
+        </span>
+
+        <span class="selection-circle"></span>
+      </button>
+
+      <button class="role-card" data-role="Content Creator">
+        <span class="role-icon cyan">▶</span>
+
+        <span class="role-content">
+          <strong>Content Creator</strong>
+          <small>
+            Create music-focused videos, campaigns and digital content.
+          </small>
+        </span>
+
+        <span class="selection-circle"></span>
+      </button>
+
+      <button class="role-card wide-card" data-role="Other">
+        <span class="role-icon lime">+</span>
+
+        <span class="role-content">
+          <strong>Another music professional</strong>
+          <small>
+            Choose this if your main role does not appear above.
+          </small>
+        </span>
+
+        <span class="selection-circle"></span>
+      </button>
+    </section>
+
+    <!-- Error message -->
+    <p class="role-error" id="roleError"></p>
+
+    <!-- Bottom navigation -->
+    <section class="bottom-navigation">
+      <a href="signup.html" class="back-button">
+        ← Back
+      </a>
+
+      <div class="selection-summary">
+        <span>Your role</span>
+        <strong id="selectedRoleText">Not selected</strong>
+      </div>
+
+      <button class="continue-button" id="continueButton" disabled>
+        Continue
+        <span>→</span>
+      </button>
+    </section>
+  </main>
+
+  <script src="onboarding.js"></script>
+</body>
+</html>

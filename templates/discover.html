@@ -1,0 +1,19 @@
+{% extends "shell.html" %}{% load static %}
+{# Port of the Discover component in src/main.jsx. Filtering runs on the server
+   through GET parameters, and the controls submit on change so the screen
+   still updates as you choose, with the same markup and classes. The
+   "All countrys" option keeps the original wording. #}
+{% block content %}
+{% include "partials/heading.html" with eyebrow="FIND YOUR PEOPLE" title="Good music starts with a connection." description="Explore sample creator profiles and save collaborators to your workspace." %}
+<form class="filters" method="get" action="/discover" data-autofilter>
+  <label class="field"><span>Search creators</span><input name="search" placeholder="Name, city or keyword" value="{{ search }}"/></label>
+  <label class="field"><span>Role</span><select name="role"><option value="">All roles</option>{% for option in roles %}<option{% if option == role %} selected{% endif %}>{{ option }}</option>{% endfor %}</select></label>
+  <label class="field"><span>Genre</span><select name="genre"><option value="">All genres</option>{% for option in genres %}<option{% if option == genre %} selected{% endif %}>{{ option }}</option>{% endfor %}</select></label>
+  <label class="field"><span>Country</span><select name="country"><option value="">All countrys</option>{% for option in countries %}<option{% if option == country %} selected{% endif %}>{{ option }}</option>{% endfor %}</select></label>
+  <button type="button" data-clear-filters>Clear filters</button>
+</form>
+<p>{{ results|length }} creators &middot; Sample network</p>
+<div class="cards">{% for creator in results %}{% include "partials/creator_card.html" %}{% endfor %}</div>
+{% if not results %}{% include "partials/empty.html" with title="No creators match your filters" body="Try a different role, genre or search." %}{% endif %}
+{% endblock %}
+{% block page_scripts %}<script src="{% static 'js/filters.js' %}" defer></script>{% endblock %}

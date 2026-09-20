@@ -1,0 +1,24 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#101014"/>
+<meta name="description" content="SoundBridge — your sound, your people, your business."/>
+<title>{% block title %}SoundBridge{% endblock %}</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+{# Load order matches the stylesheet imports in src/main.jsx: app, landing, design. #}
+<link rel="stylesheet" href="{% static 'css/app.css' %}"/>
+<link rel="stylesheet" href="{% static 'css/landing.css' %}"/>
+<link rel="stylesheet" href="{% static 'css/design.css' %}"/>
+<link rel="stylesheet" href="{% static 'css/mvp.css' %}"/>
+{% block stylesheets %}{% endblock %}
+</head>
+<body>
+<div id="root">{% block root %}{% endblock %}
+{# notify() in src/main.jsx renders this dismissible status line at the app root. #}
+{% if messages %}{% for message in messages %}<div class="notice" role="status">{{ message }}<button type="button" aria-label="Dismiss notification" data-notice-dismiss>&times;</button></div>{% endfor %}{% endif %}
+</div>
+{% block scripts %}{% endblock %}
+</body>
+</html>

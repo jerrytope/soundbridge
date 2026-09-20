@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Discover Creators | SoundBridge</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="discover.css">
+</head>
+
+<body>
+
+  <header class="page-header">
+
+    <a href="portal.html" class="logo">
+      Sound<span>Bridge</span>
+    </a>
+
+    <div class="header-actions">
+
+      <a href="portal.html">Dashboard</a>
+
+      <div class="user-avatar" id="userAvatar">SB</div>
+
+    </div>
+
+  </header>
+
+  <main class="discover-page">
+
+    <section class="discover-hero">
+
+      <div>
+        <p class="eyebrow">GLOBAL CREATOR NETWORK</p>
+
+        <h1>
+          Find the people who can
+          <span>move your sound forward.</span>
+        </h1>
+
+        <p class="hero-description">
+          Explore artists, producers, songwriters, engineers and music
+          professionals matched to your creative direction.
+        </p>
+      </div>
+
+      <div class="network-stat">
+
+        <div class="avatar-stack">
+          <span>KA</span>
+          <span>JO</span>
+          <span>TM</span>
+          <span>+</span>
+        </div>
+
+        <div>
+          <strong>Global talent network</strong>
+          <p>Discover your next collaborator</p>
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="search-section">
+
+      <div class="search-box">
+        <span>⌕</span>
+
+        <input
+          type="search"
+          id="searchInput"
+          placeholder="Search by name, role, genre or location"
+        >
+      </div>
+
+      <div class="filter-row">
+
+        <select id="roleFilter">
+          <option value="all">All roles</option>
+          <option value="Artist">Artists</option>
+          <option value="Producer">Producers</option>
+          <option value="Songwriter">Songwriters</option>
+          <option value="Audio Engineer">Audio engineers</option>
+          <option value="Music Manager">Music managers</option>
+          <option value="Videographer">Videographers</option>
+        </select>
+
+        <select id="genreFilter">
+          <option value="all">All genres</option>
+          <option value="Afrobeats">Afrobeats</option>
+          <option value="Amapiano">Amapiano</option>
+          <option value="R&B">R&amp;B</option>
+          <option value="Hip-Hop">Hip-Hop</option>
+          <option value="Gospel">Gospel</option>
+          <option value="Pop">Pop</option>
+          <option value="Alternative">Alternative</option>
+        </select>
+
+        <select id="locationFilter">
+          <option value="all">All locations</option>
+          <option value="Nigeria">Nigeria</option>
+          <option value="Ghana">Ghana</option>
+          <option value="South Africa">South Africa</option>
+          <option value="United Kingdom">United Kingdom</option>
+          <option value="United States">United States</option>
+        </select>
+
+        <button id="clearFilters">Clear filters</button>
+
+      </div>
+
+    </section>
+
+    <section class="results-section">
+
+      <div class="results-heading">
+
+        <div>
+          <p class="section-eyebrow">CREATOR MATCHES</p>
+          <h2>People you should meet</h2>
+        </div>
+
+        <p id="resultCount">0 creators found</p>
+
+      </div>
+
+      <div class="creator-grid" id="creatorGrid"></div>
+
+      <div class="empty-state" id="emptyState">
+
+        <div>⌕</div>
+
+        <h3>No creators match those filters</h3>
+
+        <p>Try changing your search, role, genre or location.</p>
+
+        <button id="emptyClearButton">Clear all filters</button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <div class="profile-modal" id="profileModal">
+
+    <div class="modal-card">
+
+      <button class="close-modal" id="closeModal">×</button>
+
+      <div class="modal-cover"></div>
+
+      <div class="modal-profile">
+
+        <div class="modal-avatar" id="modalAvatar">KA</div>
+
+        <div class="availability-badge">
+          <span></span>
+          Available to collaborate
+        </div>
+
+        <h2 id="modalName">Creator name</h2>
+
+        <p class="modal-role" id="modalRole">Creator role</p>
+
+        <p class="modal-location" id="modalLocation">
+          Location
+        </p>
+
+        <p class="modal-bio" id="modalBio"></p>
+
+        <div class="modal-genres" id="modalGenres"></div>
+
+        <div class="modal-actions">
+
+          <button class="connect-button" id="connectButton">
+            Send connection request
+          </button>
+
+          <button class="message-button" id="messageButton">
+            Message
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="discover.js"></script>
+
+</body>
+</html>
