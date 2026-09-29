@@ -12,6 +12,9 @@ x-app: &app
     SOUNDBRIDGE_MALWARE_SCANNER: /usr/bin/clamscan
   volumes:
     - clamav:/var/lib/clamav
+    # Encrypted private artifacts (uploads, statements, exports). Shared so the
+    # worker can scan and parse what web stored, and kept across rebuilds.
+    - artifacts:/app/.data/artifacts
   depends_on:
     db:
       condition: service_healthy
@@ -58,6 +61,7 @@ services:
     command: redis-server --appendonly yes
     volumes: ['redis:/data']
 volumes:
+  artifacts:
   mysql:
   redis:
   clamav:

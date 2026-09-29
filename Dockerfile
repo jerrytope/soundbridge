@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 COPY requirements.lock ./
 RUN pip install --no-cache-dir -r requirements.lock
-RUN useradd --create-home soundbridge && mkdir -p /app/.data /var/lib/clamav && chown -R soundbridge:soundbridge /app /var/lib/clamav /var/log/clamav
+RUN useradd --create-home soundbridge && mkdir -p /app/.data/artifacts /var/lib/clamav && chown -R soundbridge:soundbridge /app /var/lib/clamav /var/log/clamav
 COPY --chown=soundbridge:soundbridge . .
 USER soundbridge
 RUN SOUNDBRIDGE_PUBLIC_ORIGIN='' python manage.py collectstatic --noinput
