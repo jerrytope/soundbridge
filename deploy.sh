@@ -10,7 +10,7 @@
 set -euo pipefail
 
 SERVER_IP="${SERVER_IP:-13.63.126.14}"
-APP_PORT="${APP_PORT:-8001}"
+APP_PORT="${APP_PORT:-8000}"
 REPO_URL="${REPO_URL:-https://github.com/jerrytope/soundbridge.git}"
 BRANCH="${BRANCH:-master}"
 APP_DIR="${APP_DIR:-/srv/soundbridge}"

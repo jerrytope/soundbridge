@@ -150,8 +150,8 @@ Notes:
 - `compose.yaml` requires `MYSQL_PASSWORD` and `MYSQL_ROOT_PASSWORD` in your shell or a
   Compose env file; it refuses to start without them.
 - It also expects `.env.local` to exist (it does).
-- The web port is published on every interface as `8001`, so this stack is reached at
-  <http://127.0.0.1:8001> rather than the runserver port above.
+- The web port is published on every interface as `8000`, so this stack is reached at
+  <http://127.0.0.1:8000> rather than the runserver port above.
 - Run migrations as the one-off job above, never concurrently from each web worker.
 - This stack uses MySQL, so it does **not** share data with your SQLite file.
 - Stop with `docker compose down`; add `-v` only if you intend to destroy the database

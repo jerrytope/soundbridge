@@ -1,5 +1,5 @@
 FROM python:3.12-slim
-ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PORT=8001
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PORT=8000
 WORKDIR /app
 # mysqlclient publishes no Linux wheels, so it is compiled here: pkg-config and
 # the client headers are needed at build time, and the shared library at runtime.
@@ -12,10 +12,10 @@ RUN useradd --create-home soundbridge && mkdir -p /app/.data/artifacts /var/lib/
 COPY --chown=soundbridge:soundbridge . .
 USER soundbridge
 RUN SOUNDBRIDGE_PUBLIC_ORIGIN='' python manage.py collectstatic --noinput
-EXPOSE 8001
+EXPOSE 8000
 # Any HTTP response means Gunicorn is serving. A 403 is the expected answer here:
 # the request policy compares the Host header against the configured public
 # origin, and this probe connects to the loopback address instead.
-HEALTHCHECK --interval=30s --timeout=5s CMD python -c "import os, urllib.request, urllib.error; url='http://127.0.0.1:'+os.environ.get('PORT','8001')+'/api/health';\
+HEALTHCHECK --interval=30s --timeout=5s CMD python -c "import os, urllib.request, urllib.error; url='http://127.0.0.1:'+os.environ.get('PORT','8000')+'/api/health';\
  exec('try:\n urllib.request.urlopen(url, timeout=4)\nexcept urllib.error.HTTPError:\n pass')" || exit 1
-CMD ["sh", "-c", "gunicorn config.wsgi:application --bind 0.0.0.0:${PORT:-8001} --workers 2 --timeout 70"]
+CMD ["sh", "-c", "gunicorn config.wsgi:application --bind 0.0.0.0:${PORT:-8000} --workers 2 --timeout 70"]

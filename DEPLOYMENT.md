@@ -5,7 +5,7 @@ The shipped product is the Django application in this repository: Gunicorn servi
 scheduler). `Dockerfile` and `compose.yaml` describe that runtime, and this guide runs
 them on a single Ubuntu EC2 instance.
 
-There is no domain name yet, so the site is reached directly at **`http://<server-ip>:8001`**.
+There is no domain name yet, so the site is reached directly at **`http://<server-ip>:8000`**.
 Section 7 covers moving to a domain and HTTPS later; that change is two settings and a
 reverse proxy, and nothing in the application needs rewriting for it.
 
@@ -18,7 +18,7 @@ Read [docs/MVP_OPERATIONS.md](docs/MVP_OPERATIONS.md) alongside this guide: it c
 background jobs, private-file encryption, privacy processing, plans and entitlements in
 more depth than the steps below.
 
-> **Plain HTTP carries everything in the clear.** On `http://<ip>:8001` the password
+> **Plain HTTP carries everything in the clear.** On `http://<ip>:8000` the password
 > typed at sign-in, the session cookie and every royalty figure cross the network
 > unencrypted, and anyone on the path can read or change them. That is a reasonable
 > trade for a private pilot with people you have briefed. Do not invite real creators to
@@ -38,14 +38,14 @@ more depth than the steps below.
 | Instance | EC2 `t3.medium` (2 vCPU, 4 GiB) or larger, Ubuntu 24.04 LTS |
 | Storage | 30 GiB gp3, encrypted |
 | Elastic IP | Allocated and associated — **required**, because the IP *is* the address people will use, and an unassociated public IP changes on every stop/start |
-| Security group | Inbound 22 from your own IP only, and 8001 from wherever your testers are. Nothing else. |
+| Security group | Inbound 22 from your own IP only, and 8000 from wherever your testers are. Nothing else. |
 
 4 GiB of RAM is a floor, not a preference. ClamAV's signature database is well over a
 gigabyte and `clamscan` loads it on every invocation; on a 2 GiB instance the scanner is
 killed under memory pressure and every upload stays quarantined. Do not publish MySQL's
 3306 — the database container has no host port at all, which is deliberate.
 
-If you can scope it, open 8001 to your testers' IP ranges rather than `0.0.0.0/0`. Over
+If you can scope it, open 8000 to your testers' IP ranges rather than `0.0.0.0/0`. Over
 plain HTTP that is the only access control between the internet and the sign-in form.
 
 You will also need SMTP credentials (password recovery depends on real delivery) and, if
@@ -84,11 +84,11 @@ sudo mkswap /swapfile && sudo swapon /swapfile
 echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
 ```
 
-Check that nothing already holds port 8001 — if something does, change the published port
+Check that nothing already holds port 8000 — if something does, change the published port
 in `compose.yaml` and use that port everywhere below:
 
 ```bash
-sudo ss -lntp | grep ':8001' || echo "8001 is free"
+sudo ss -lntp | grep ':8000' || echo "8000 is free"
 ```
 
 ## 3. Get the code onto the server
@@ -136,7 +136,7 @@ MYSQL_ROOT_PASSWORD=the-root-password-from-step-4
 ```
 
 **`/srv/soundbridge/.env.local`** — read by the application through `config/env.py`.
-Substitute your Elastic IP for `13.51.0.0`:
+Substitute your Elastic IP for `13.63.126.14`:
 
 ```dotenv
 # Declaring a public origin is the switch that turns this into a production
@@ -144,7 +144,7 @@ Substitute your Elastic IP for `13.51.0.0`:
 # unless reopened below. Keep the scheme http:// and the port on it while the site is
 # reached by IP address — an https:// origin turns on the HTTPS redirect and Secure
 # cookies, which over plain HTTP would loop the browser and never store a session.
-SOUNDBRIDGE_PUBLIC_ORIGIN=http://13.51.0.0:8001
+SOUNDBRIDGE_PUBLIC_ORIGIN=http://13.63.126.14:8000
 SOUNDBRIDGE_SECRET_KEY=the-django-key-from-step-4
 SOUNDBRIDGE_PRIVATE_STORAGE_KEY=the-fernet-key-from-step-4
 
@@ -227,14 +227,14 @@ docker compose ps
 
 Confirm the application is serving. Every request is checked against your public origin,
 so a probe from the server itself has to send the matching `Host` header — a bare
-`curl http://127.0.0.1:8001/api/health` is answered with `403` by design, not because
+`curl http://127.0.0.1:8000/api/health` is answered with `403` by design, not because
 anything is broken:
 
 ```bash
-curl -sS -H 'Host: 13.51.0.0' http://127.0.0.1:8001/api/health
+curl -sS -H 'Host: 13.63.126.14' http://127.0.0.1:8000/api/health
 ```
 
-Then open `http://13.51.0.0:8001` in a browser. Sign up, and you should land in the
+Then open `http://13.63.126.14:8000` in a browser. Sign up, and you should land in the
 workspace immediately — there is no confirmation email to wait for, and those same
 details sign you back in afterwards.
 
@@ -247,12 +247,12 @@ permissions, and never give them billing, account-change or financial permission
 When the domain exists, point an A record at the Elastic IP and then:
 
 1. Change the published port in `compose.yaml` back to loopback only —
-   `ports: ['127.0.0.1:8001:8001']` — so nothing reaches Gunicorn except the proxy.
+   `ports: ['127.0.0.1:8000:8000']` — so nothing reaches Gunicorn except the proxy.
 2. Change one line in `.env.local`:
    `SOUNDBRIDGE_PUBLIC_ORIGIN=https://app.example.com`. That scheme is what turns on the
    HTTPS redirect, HSTS, Secure cookies and the forwarded-protocol header; no other
    setting changes.
-3. Install Nginx and a certificate, and proxy to `127.0.0.1:8001`:
+3. Install Nginx and a certificate, and proxy to `127.0.0.1:8000`:
 
 ```nginx
 server {
@@ -261,7 +261,7 @@ server {
     client_max_body_size 10m;
 
     location / {
-        proxy_pass http://127.0.0.1:8001;
+        proxy_pass http://127.0.0.1:8000;
 
         # ALLOWED_HOSTS and the application's own origin policy both check the Host
         # header. Without this, Nginx forwards `127.0.0.1` and every request is 403.
@@ -291,7 +291,7 @@ sudo certbot --nginx -d app.example.com
 sudo certbot renew --dry-run
 ```
 
-Then close 8001 in the security group and open 80 and 443. Serve exactly one hostname:
+Then close 8000 in the security group and open 80 and 443. Serve exactly one hostname:
 `ALLOWED_HOSTS` is derived from the origin and contains only that host, so redirect `www.`
 in a separate server block rather than proxying it.
 
@@ -424,9 +424,9 @@ written since. Keep the code tag and its snapshot together.
 | Symptom | Cause |
 | --- | --- |
 | Every page is `403 This host is not configured for SoundBridge.` | The address in the browser does not match `SOUNDBRIDGE_PUBLIC_ORIGIN`. It must be the same IP or hostname, character for character. |
-| The browser reports a redirect loop | `SOUNDBRIDGE_PUBLIC_ORIGIN` starts with `https://` while the site is served over plain HTTP. Use `http://<ip>:8001` until a proxy terminates TLS. |
+| The browser reports a redirect loop | `SOUNDBRIDGE_PUBLIC_ORIGIN` starts with `https://` while the site is served over plain HTTP. Use `http://<ip>:8000` until a proxy terminates TLS. |
 | Sign-in appears to work but every page asks you to sign in again | Same cause: an `https://` origin makes the session cookie `Secure`, so the browser never stores it over HTTP. |
-| The page does not load at all from outside | Port 8001 is not open in the security group, or `compose.yaml` is still publishing to `127.0.0.1`. |
+| The page does not load at all from outside | Port 8000 is not open in the security group, or `compose.yaml` is still publishing to `127.0.0.1`. |
 | The container exits with `SOUNDBRIDGE_SECRET_KEY is required` | A public origin is configured with no secret key. Both live in `.env.local`. |
 | Signup reports that registration is closed | Setting a public origin closes registration by default. Set `SOUNDBRIDGE_ALLOW_SIGNUP=true`. |
 | `docker compose up` fails on `MYSQL_PASSWORD` | `/srv/soundbridge/.env` is missing; Compose interpolates that variable and `MYSQL_ROOT_PASSWORD` from it. |
@@ -442,7 +442,7 @@ To run the services directly under systemd instead:
 `pip install`). Create a virtualenv, `pip install -r requirements.lock`, create the
 database and user in MySQL, put the same variables in `/etc/soundbridge.env` (referenced by
 `EnvironmentFile=`), and write three units — Gunicorn on `config.wsgi:application` bound to
-`0.0.0.0:8001`, `celery -A config.celery worker`, and one `celery -A config.celery beat`.
+`0.0.0.0:8000`, `celery -A config.celery worker`, and one `celery -A config.celery beat`.
 Run `collectstatic` as part of every deploy, because nothing else will. Set
 `SOUNDBRIDGE_MALWARE_SCANNER=/usr/bin/clamscan` and `MYSQL_HOST=127.0.0.1`. Backups, the
 release gates and the rollback rules are unchanged.

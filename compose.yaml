@@ -2,7 +2,7 @@ x-app: &app
   build: .
   env_file: .env.local
   environment: &environment
-    PORT: 8001
+    PORT: 8000
     MYSQL_DATABASE: soundbridge
     MYSQL_USER: soundbridge
     MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Set MYSQL_PASSWORD in the shell or Compose env file}
@@ -24,10 +24,10 @@ services:
   web:
     <<: *app
     # Published on every interface: with no domain name yet, the site is reached
-    # at http://<server-ip>:8001, so port 8001 must be open in the EC2 security
-    # group. Put this back to '127.0.0.1:8001:8001' the moment a reverse proxy
+    # at http://<server-ip>:8000, so port 8000 must be open in the EC2 security
+    # group. Put this back to '127.0.0.1:8000:8000' the moment a reverse proxy
     # terminates TLS in front of it.
-    ports: ['0.0.0.0:8001:8001']
+    ports: ['0.0.0.0:8000:8000']
     healthcheck:
       disable: true
   worker:
