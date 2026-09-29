@@ -9,6 +9,11 @@
 # Anything left unset that is needed is asked for interactively.
 set -euo pipefail
 
+# Everything runs inside main(), so bash has read the whole script before any
+# command starts. Under `curl | bash` a command that reads stdin (docker compose
+# run does) would otherwise swallow the rest of the script.
+main() {
+
 SERVER_IP="${SERVER_IP:-13.63.126.14}"
 APP_PORT="${APP_PORT:-8000}"
 REPO_URL="${REPO_URL:-https://github.com/jerrytope/soundbridge.git}"
@@ -117,7 +122,7 @@ fi
 cd "$APP_DIR"
 echo "Deploying commit $(git rev-parse --short HEAD)"
 
-dc() { docker compose "$@"; }
+dc() { docker compose "$@" </dev/null; }
 
 # ---------------------------------------------------------------------------
 if [ ! -f .env.local ]; then
@@ -189,7 +194,7 @@ dc build
 docker image prune -f >/dev/null || true
 
 log "Updating ClamAV signatures"
-dc run --rm web freshclam || warn "freshclam failed; uploads stay quarantined until it succeeds. The weekly cron will retry."
+dc run --rm web freshclam || warn "freshclam reported an error. A NotifyClamd error is harmless (no clamd daemon is used); anything else means uploads stay quarantined until the weekly refresh succeeds."
 
 log "Starting the database and Redis"
 dc up -d db redis
@@ -277,3 +282,6 @@ Next steps:
   * Logs:    cd $APP_DIR && docker compose logs -f web worker scheduler
   * Update:  push to GitHub, then re-run this script.
 EOF
+}
+
+main "$@"
