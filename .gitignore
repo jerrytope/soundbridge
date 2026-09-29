@@ -80,3 +80,8 @@ api/
 /royalty-setup.html
 /royalty-calculator.html
 /royalty-upload.html
+
+# SSH keys - never commit
+*.pem
+pem/
+env-*.txt

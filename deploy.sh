@@ -226,6 +226,22 @@ else:
 "
 fi
 
+# On a public origin, signup refuses every registration until the terms and
+# privacy copy are recorded as approved launch decisions. Existing rows are left
+# alone, so an approval edited in the admin is never overwritten.
+log "Recording pilot approval of the terms and privacy copy"
+dc run --rm -T web python manage.py shell -c "
+from django.utils import timezone
+from operations.models import LaunchDecision
+for key in ['terms-copy', 'privacy-copy']:
+    row, created = LaunchDecision.objects.get_or_create(key=key, defaults={
+        'decision': 'Approved for the private pilot by deploy.sh.',
+        'owner': 'SoundBridge operator',
+        'approved_at': timezone.now(),
+    })
+    print(key, 'recorded' if created else 'already recorded')
+"
+
 log "Starting SoundBridge"
 dc up -d --remove-orphans
 
