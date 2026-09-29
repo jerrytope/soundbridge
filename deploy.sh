@@ -57,6 +57,17 @@ if [ "$mem_kb" -lt 3500000 ]; then
   warn "on a smaller instance the upload scanner is killed and uploads stay quarantined."
 fi
 
+# Leftovers from an earlier failed build can be what filled the disk.
+command -v docker >/dev/null && docker builder prune -af >/dev/null 2>&1 || true
+free_gb=$(( $(df --output=avail -k / | tail -1) / 1024 / 1024 ))
+if [ "$free_gb" -lt 8 ]; then
+  df -h /
+  die "Only ${free_gb} GiB free on /. The build needs about 8 GiB. Enlarge the EBS volume
+to 30 GiB in the AWS console (EC2 > Volumes > Modify), then on this server run:
+  sudo growpart \$(findmnt -no SOURCE / | sed -E 's/p?[0-9]+\$//') 1 && sudo resize2fs \$(findmnt -no SOURCE /)
+and run this script again."
+fi
+
 export DEBIAN_FRONTEND=noninteractive NEEDRESTART_MODE=a
 
 # ---------------------------------------------------------------------------
@@ -175,6 +186,7 @@ dc config --quiet
 # ---------------------------------------------------------------------------
 log "Building images (this takes several minutes the first time)"
 dc build
+docker image prune -f >/dev/null || true
 
 log "Updating ClamAV signatures"
 dc run --rm web freshclam || warn "freshclam failed; uploads stay quarantined until it succeeds. The weekly cron will retry."
@@ -186,7 +198,11 @@ log "Running migrations"
 dc run --rm web python manage.py migrate --noinput
 
 # ---------------------------------------------------------------------------
-if [ "$first_run" = 1 ] || [ -n "$ADMIN_EMAIL" ]; then
+has_admin=$(dc run --rm -T web python manage.py shell -c "
+from django.contrib.auth import get_user_model
+print(get_user_model().objects.filter(is_superuser=True).exists())
+" 2>/dev/null | tail -1 || true)
+if [ "$has_admin" != True ] || [ -n "$ADMIN_EMAIL" ]; then
   ask ADMIN_EMAIL "Administrator email"
   ask ADMIN_PASSWORD "Administrator password (not shown)" secret
   [ -n "$ADMIN_EMAIL" ] && [ -n "$ADMIN_PASSWORD" ] || die "Administrator email and password are required."

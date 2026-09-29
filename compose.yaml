@@ -1,4 +1,6 @@
 x-app: &app
+  # One image shared by web, worker and scheduler, so it is built and stored once.
+  image: soundbridge-app:latest
   build: .
   env_file: .env.local
   environment: &environment
